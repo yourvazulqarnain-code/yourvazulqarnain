@@ -380,7 +380,6 @@ function Footer() {
 function Portfolio() {
   return (
     <div className="min-h-screen bg-background">
-      <Toaster />
       <Nav />
       <Hero />
       <About />
