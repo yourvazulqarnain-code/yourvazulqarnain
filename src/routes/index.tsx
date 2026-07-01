@@ -6,11 +6,8 @@ import {
   Menu, X, Quote,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
-import { Toaster } from "@/components/ui/sonner";
 import portrait from "@/assets/zulqarnain.jpeg.asset.json";
+
 
 export const Route = createFileRoute("/")({
   component: Portfolio,
@@ -322,72 +319,43 @@ function CTA() {
 }
 
 function Contact() {
-  const [loading, setLoading] = useState(false);
-  const services = ["Lead Generation","Data Entry","Web Research","CRM Management","Real Estate VA","Administrative Support","Other"];
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      toast.success("Message sent! I'll get back to you within 24 hours.");
-      (e.target as HTMLFormElement).reset();
-    }, 700);
-  };
   return (
     <section id="contact" className="py-24 bg-secondary/50">
-      <div className="mx-auto max-w-6xl px-6 grid lg:grid-cols-5 gap-10">
-        <div className="lg:col-span-2">
-          <div className="text-xs font-semibold uppercase tracking-wider text-brand mb-3">Contact</div>
-          <h2 className="text-3xl md:text-4xl font-bold text-navy">Let's get in touch</h2>
-          <p className="mt-4 text-muted-foreground leading-relaxed">
-            Have a project or need ongoing VA support? Send a quick message and I'll reply within 24 hours.
-          </p>
-          <div className="mt-8 space-y-4">
-            <a href="mailto:yourvazulqarnain@gmail.com" className="flex items-center gap-3 text-navy hover:text-brand transition-colors">
-              <div className="w-10 h-10 rounded-lg bg-card border border-border flex items-center justify-center"><Mail size={16} /></div>
-              <span className="font-medium break-all">yourvazulqarnain@gmail.com</span>
-            </a>
-            <a href="tel:+923458007325" className="flex items-center gap-3 text-navy hover:text-brand transition-colors">
-              <div className="w-10 h-10 rounded-lg bg-card border border-border flex items-center justify-center"><Phone size={16} /></div>
-              <span className="font-medium">+92 345 8007325</span>
-            </a>
-            <a href="https://linkedin.com/in/zulqarnain-haider-31147a3a5/" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-navy hover:text-brand transition-colors">
-              <div className="w-10 h-10 rounded-lg bg-card border border-border flex items-center justify-center"><Linkedin size={16} /></div>
-              <span className="font-medium">linkedin.com/in/zulqarnain-haider</span>
-            </a>
-          </div>
+      <div className="mx-auto max-w-4xl px-6 text-center">
+        <div className="text-xs font-semibold uppercase tracking-wider text-brand mb-3">Contact</div>
+        <h2 className="text-3xl md:text-4xl font-bold text-navy">Let's get in touch</h2>
+        <p className="mt-4 text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+          Have a project or need ongoing VA support? Reach out directly and I'll reply within 24 hours.
+        </p>
+        <div className="mt-10 grid md:grid-cols-3 gap-5">
+          <a href="mailto:yourvazulqarnain@gmail.com" className="flex flex-col items-center gap-4 p-7 rounded-2xl bg-card border border-border shadow-soft hover:shadow-elevated hover:-translate-y-1 transition-all">
+            <div className="w-12 h-12 rounded-xl bg-brand/10 text-brand flex items-center justify-center">
+              <Mail size={22} />
+            </div>
+            <div>
+              <div className="text-sm text-muted-foreground mb-1">Email</div>
+              <div className="font-medium text-navy break-all">yourvazulqarnain@gmail.com</div>
+            </div>
+          </a>
+          <a href="tel:+923458007325" className="flex flex-col items-center gap-4 p-7 rounded-2xl bg-card border border-border shadow-soft hover:shadow-elevated hover:-translate-y-1 transition-all">
+            <div className="w-12 h-12 rounded-xl bg-brand/10 text-brand flex items-center justify-center">
+              <Phone size={22} />
+            </div>
+            <div>
+              <div className="text-sm text-muted-foreground mb-1">Phone</div>
+              <div className="font-medium text-navy">+92 345 8007325</div>
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/zulqarnain-haider-42763b418/" target="_blank" rel="noreferrer" className="flex flex-col items-center gap-4 p-7 rounded-2xl bg-card border border-border shadow-soft hover:shadow-elevated hover:-translate-y-1 transition-all">
+            <div className="w-12 h-12 rounded-xl bg-brand/10 text-brand flex items-center justify-center">
+              <Linkedin size={22} />
+            </div>
+            <div>
+              <div className="text-sm text-muted-foreground mb-1">LinkedIn</div>
+              <div className="font-medium text-navy">Zulqarnain Haider</div>
+            </div>
+          </a>
         </div>
-        <form onSubmit={onSubmit} className="lg:col-span-3 p-8 rounded-2xl bg-card border border-border shadow-soft space-y-4">
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label className="text-sm font-medium text-navy mb-1.5 block">Name</label>
-              <Input required name="name" placeholder="Your full name" />
-            </div>
-            <div>
-              <label className="text-sm font-medium text-navy mb-1.5 block">Email</label>
-              <Input required type="email" name="email" placeholder="you@company.com" />
-            </div>
-          </div>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label className="text-sm font-medium text-navy mb-1.5 block">Company</label>
-              <Input name="company" placeholder="Company name" />
-            </div>
-            <div>
-              <label className="text-sm font-medium text-navy mb-1.5 block">Service Needed</label>
-              <select name="service" className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm">
-                {services.map(s => <option key={s}>{s}</option>)}
-              </select>
-            </div>
-          </div>
-          <div>
-            <label className="text-sm font-medium text-navy mb-1.5 block">Message</label>
-            <Textarea required name="message" rows={5} placeholder="Tell me about your project..." />
-          </div>
-          <Button type="submit" disabled={loading} size="lg" className="w-full bg-navy text-navy-foreground hover:bg-navy/90">
-            {loading ? "Sending..." : "Send Message"}
-          </Button>
-        </form>
       </div>
     </section>
   );
@@ -412,7 +380,6 @@ function Footer() {
 function Portfolio() {
   return (
     <div className="min-h-screen bg-background">
-      <Toaster />
       <Nav />
       <Hero />
       <About />
