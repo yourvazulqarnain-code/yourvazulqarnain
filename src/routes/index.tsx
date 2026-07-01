@@ -209,30 +209,6 @@ function Skills() {
   );
 }
 
-function Portfolio() {
-  return (
-    <section id="portfolio" className="py-24 bg-secondary/50">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="max-w-2xl mb-14">
-          <div className="text-xs font-semibold uppercase tracking-wider text-brand mb-3">Work Samples</div>
-          <h2 className="text-3xl md:text-4xl font-bold text-navy">Selected work</h2>
-        </div>
-        <div className="grid md:grid-cols-2 gap-6">
-          {portfolio.map((p, i) => (
-            <div key={p.title} className="p-8 rounded-2xl bg-card border border-border shadow-soft hover:shadow-elevated transition-all">
-              <div className="text-sm font-mono text-brand mb-2">0{i+1}</div>
-              <h3 className="text-xl font-semibold text-navy mb-3">{p.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{p.desc}</p>
-            </div>
-          ))}
-        </div>
-        <p className="mt-8 text-sm text-muted-foreground text-center italic">
-          Client data is always kept private and confidential. Sample work can be shared upon request with sensitive information removed.
-        </p>
-      </div>
-    </section>
-  );
-}
 
 function WhyMe() {
   return (
