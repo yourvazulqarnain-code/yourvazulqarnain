@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
-  Users, Database, Search, LineChart, Home, Mail, Phone, Linkedin,
+  Users, Database, Search, LineChart, Home, Mail, MessageCircle, Linkedin,
   CheckCircle2, ArrowRight, Sparkles, Clock, ShieldCheck, FileSpreadsheet,
   Menu, X, Quote,
 } from "lucide-react";
@@ -337,12 +337,12 @@ function Contact() {
               <div className="font-medium text-navy break-all">yourvazulqarnain@gmail.com</div>
             </div>
           </a>
-          <a href="tel:+923458007325" className="flex flex-col items-center gap-4 p-7 rounded-2xl bg-card border border-border shadow-soft hover:shadow-elevated hover:-translate-y-1 transition-all">
+          <a href="https://wa.me/923458007325" target="_blank" rel="noreferrer" className="flex flex-col items-center gap-4 p-7 rounded-2xl bg-card border border-border shadow-soft hover:shadow-elevated hover:-translate-y-1 transition-all">
             <div className="w-12 h-12 rounded-xl bg-brand/10 text-brand flex items-center justify-center">
-              <Phone size={22} />
+              <MessageCircle size={22} />
             </div>
             <div>
-              <div className="text-sm text-muted-foreground mb-1">Phone</div>
+              <div className="text-sm text-muted-foreground mb-1">WhatsApp</div>
               <div className="font-medium text-navy">+92 345 8007325</div>
             </div>
           </a>
