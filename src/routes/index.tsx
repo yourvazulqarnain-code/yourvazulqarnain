@@ -4,7 +4,8 @@ import {
   Users, Database, Search, LineChart, Home, Mail, MessageCircle, Linkedin,
   CheckCircle2, ArrowRight, Sparkles, Clock, ShieldCheck, FileSpreadsheet,
   Menu, X, Quote, Star, MapPin, BarChart3, FileSearch, Briefcase,
-  ChevronDown, Zap, Smile, Timer,
+  Zap, Smile, Timer,
+
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
