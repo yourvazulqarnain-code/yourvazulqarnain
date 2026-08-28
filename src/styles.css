@@ -203,22 +203,51 @@
 @utility btn-glow {
   position: relative;
   isolation: isolate;
-}
-@utility btn-glow::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: var(--gradient-brand);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
-  opacity: 0.9;
-  z-index: -1;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -1.5px;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: var(--gradient-brand);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    opacity: 1;
+    z-index: -1;
+  }
 }
 
 /* Card conic animated border on hover */
 @utility card-glow {
   position: relative;
 }
+
+/* ===== Aggressive visual intensity layer ===== */
+@layer base {
+  h1, h2, h3, h4 {
+    font-weight: 800;
+    letter-spacing: -0.035em;
+  }
+  h1 { text-wrap: balance; }
+}
+
+@utility text-shout {
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+}
+
+@utility edge-bar {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--gradient-brand);
+    box-shadow: var(--shadow-glow);
+  }
+}
+
