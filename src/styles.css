@@ -67,12 +67,13 @@
   --cyan-accent: #06B6D4;
   --purple-accent: #8B5CF6;
 
-  --gradient-hero: radial-gradient(ellipse at top right, rgba(59,130,246,0.18), transparent 60%), linear-gradient(180deg, #050816, #0B1120);
-  --gradient-brand: linear-gradient(135deg, #3B82F6 0%, #06B6D4 50%, #8B5CF6 100%);
-  --gradient-text: linear-gradient(90deg, #ffffff, #a5b4fc 40%, #67e8f9 70%, #c4b5fd);
-  --shadow-soft: 0 1px 2px rgba(0,0,0,0.4), 0 10px 30px -12px rgba(59,130,246,0.25);
-  --shadow-elevated: 0 20px 60px -20px rgba(59,130,246,0.45), 0 0 0 1px rgba(255,255,255,0.06) inset;
-  --shadow-glow: 0 0 40px rgba(59,130,246,0.35), 0 0 80px rgba(139,92,246,0.18);
+  --gradient-hero: radial-gradient(ellipse at top right, rgba(59,130,246,0.30), transparent 58%), linear-gradient(180deg, #02040d, #0B1120);
+  --gradient-brand: linear-gradient(135deg, #2563EB 0%, #06B6D4 45%, #A855F7 100%);
+  --gradient-text: linear-gradient(90deg, #ffffff, #93c5fd 35%, #22d3ee 65%, #c084fc);
+  --shadow-soft: 0 1px 2px rgba(0,0,0,0.6), 0 14px 40px -12px rgba(59,130,246,0.40);
+  --shadow-elevated: 0 28px 80px -22px rgba(59,130,246,0.65), 0 0 0 1px rgba(255,255,255,0.10) inset;
+  --shadow-glow: 0 0 50px rgba(59,130,246,0.55), 0 0 110px rgba(168,85,247,0.30);
+
 }
 
 @layer base {
