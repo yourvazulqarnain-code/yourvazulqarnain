@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import {
   Users, Database, Search, LineChart, Home, Mail, MessageCircle, Linkedin,
   CheckCircle2, ArrowRight, Clock, ShieldCheck, FileSpreadsheet,
-  Menu, X, Quote, Star, MapPin, BarChart3, FileSearch, Briefcase,
-  Download, ArrowUp, Globe2,
+  Menu, X, Quote, Star, MapPin, BarChart3, FileSearch,
+  Download, ArrowUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -158,34 +158,10 @@ function Counter({ to, suffix = "", duration = 1800 }: { to: number; suffix?: st
 // ============ FX ============
 function BackgroundFX() {
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div className="absolute inset-0 bg-hero" />
-      <div className="absolute inset-0 bg-grid opacity-30"
-           style={{ maskImage: "radial-gradient(ellipse at center, black 25%, transparent 78%)" }} />
-      <div className="absolute inset-0 bg-noise opacity-[0.10] mix-blend-overlay" />
-    </div>
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 bg-background" />
   );
 }
 
-function LoadingScreen() {
-  const [gone, setGone] = useState(false);
-  const [fade, setFade] = useState(false);
-  useEffect(() => {
-    const t1 = setTimeout(() => setFade(true), 900);
-    const t2 = setTimeout(() => setGone(true), 1500);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, []);
-  if (gone) return null;
-  return (
-    <div className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#0d0d0d] transition-opacity duration-500 ${fade ? "opacity-0" : "opacity-100"}`}>
-      <div className="flex flex-col items-center gap-5">
-        <span className="font-display text-4xl text-gold italic">ZH</span>
-        <div className="h-px w-24 bg-gradient-to-r from-transparent via-gold to-transparent" />
-        <span className="text-[10px] uppercase tracking-[0.4em] text-gold-light/60">Executive Virtual Assistance</span>
-      </div>
-    </div>
-  );
-}
 
 function BackToTop() {
   const [show, setShow] = useState(false);
@@ -299,32 +275,16 @@ function Hero() {
         </div>
 
         {/* Right: framed portrait panel */}
-        <div className="relative bg-[#141310] flex items-center justify-center py-16 lg:py-0 overflow-hidden border-t lg:border-t-0 lg:border-l border-gold/20">
-          <div className="absolute inset-0 opacity-25 bg-noise mix-blend-overlay" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(201,168,76,0.10),transparent_70%)]" />
-          <div className="relative z-10 w-[78%] max-w-[420px] animate-fade-up" style={{ animationDelay: "320ms" }}>
-            <div className="relative">
-              {/* corner ticks */}
-              <div className="absolute -top-3 -left-3 w-10 h-10 border-t-2 border-l-2 border-gold" />
-              <div className="absolute -bottom-3 -right-3 w-10 h-10 border-b-2 border-r-2 border-gold" />
-              <div className="border border-gold/25 p-3 bg-[#0d0d0d]">
-                <div className="relative overflow-hidden aspect-[4/5]">
-                  <img src={portrait.url} alt="Zulqarnain Haider — Executive Virtual Assistant" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d]/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="font-display text-white text-lg leading-tight">Zulqarnain Haider</div>
-                    <div className="text-gold-light/70 text-[10px] uppercase tracking-[0.25em] mt-1">Virtual Assistant · Lead Gen</div>
-                  </div>
+        <div className="relative bg-[#141310] flex items-center justify-center py-16 lg:py-0 border-t lg:border-t-0 lg:border-l border-gold/20">
+          <div className="w-[78%] max-w-[400px] animate-fade-up" style={{ animationDelay: "320ms" }}>
+            <div className="border border-gold/25 p-3 bg-[#0d0d0d]">
+              <div className="relative overflow-hidden aspect-[4/5]">
+                <img src={portrait.url} alt="Zulqarnain Haider — Executive Virtual Assistant" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d]/80 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4">
+                  <div className="font-display text-white text-lg leading-tight">Zulqarnain Haider</div>
+                  <div className="text-gold-light/70 text-[10px] uppercase tracking-[0.25em] mt-1">Virtual Assistant · Lead Gen</div>
                 </div>
-              </div>
-              {/* floating chips */}
-              <div className="absolute -left-5 -bottom-6 px-4 py-3 bg-[#141310] border border-gold/40 shadow-elevated animate-float" style={{ animationDelay: "-2s" }}>
-                <div className="font-display text-2xl text-gold leading-none"><Counter to={200} suffix="+" /></div>
-                <div className="text-[9px] uppercase tracking-[0.2em] text-gold-light/60 mt-1.5">Projects Delivered</div>
-              </div>
-              <div className="absolute -right-4 -top-5 px-3 py-2 bg-[#141310] border border-gold/40 flex items-center gap-2 animate-float" style={{ animationDelay: "-4s" }}>
-                <Star size={13} className="text-gold" fill="currentColor" />
-                <span className="text-[10px] uppercase tracking-[0.15em] text-gold-light font-medium">5.0 Rating</span>
               </div>
             </div>
           </div>
@@ -554,8 +514,6 @@ function Testimonials() {
         <SectionHead eyebrow="Testimonials" title="What clients say" center />
         <Reveal>
           <div className="relative border border-gold/25 bg-[#0d0d0d] p-10 md:p-14 text-center">
-            <div className="absolute -top-3 -left-3 w-8 h-8 border-t-2 border-l-2 border-gold" />
-            <div className="absolute -bottom-3 -right-3 w-8 h-8 border-b-2 border-r-2 border-gold" />
             <Quote size={30} className="mx-auto text-gold/60 mb-6" />
             <div className="flex items-center justify-center gap-1.5 mb-6 text-gold">
               {Array.from({ length: 5 }).map((_, k) => (
@@ -589,8 +547,7 @@ function CTA() {
     <section className="py-24">
       <div className="mx-auto max-w-5xl px-6">
         <Reveal>
-          <div className="relative border border-gold/30 bg-[#121110] p-10 md:p-16 text-center overflow-hidden">
-            <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_center,rgba(201,168,76,0.12),transparent_70%)]" />
+          <div className="relative border border-gold/30 bg-[#121110] p-10 md:p-16 text-center">
             <div className="relative">
               <span className="overline-gold mb-6"><span className="h-px w-6 bg-gold" /> Let's Talk <span className="h-px w-6 bg-gold" /></span>
               <h2 className="text-3xl md:text-5xl text-white">Need reliable <span className="text-gold italic">VA support</span>?</h2>
@@ -716,7 +673,7 @@ function FloatingCTA() {
     <a
       href="#contact"
       aria-label="Hire Me"
-      className={`fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 px-6 py-3 bg-gold text-[#0d0d0d] font-semibold text-[11px] uppercase tracking-[0.2em] shadow-glow animate-soft-pulse transition-all duration-300 hover:bg-gold-light ${show ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"}`}
+      className={`fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 px-6 py-3 bg-gold text-[#0d0d0d] font-semibold text-[11px] uppercase tracking-[0.2em] transition-all duration-300 hover:bg-gold-light ${show ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"}`}
     >
       Hire Me
     </a>
@@ -727,7 +684,6 @@ function Portfolio() {
   return (
     <div className="relative min-h-screen text-foreground">
       <BackgroundFX />
-      <LoadingScreen />
       <Nav />
       <Hero />
       <StatsBar />
