@@ -175,7 +175,7 @@ function BackToTop() {
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label="Back to top"
-      className={`fixed bottom-6 left-6 z-40 w-11 h-11 border border-gold/40 bg-[#0d0d0d] flex items-center justify-center text-gold hover:bg-gold hover:text-[#0d0d0d] transition-all ${show ? "opacity-100" : "opacity-0 pointer-events-none translate-y-3"}`}
+      className={`fixed bottom-6 left-6 z-40 w-11 h-11 border border-gold/40 bg-[#0a1424] flex items-center justify-center text-gold hover:bg-gold hover:text-[#0a1424] transition-all ${show ? "opacity-100" : "opacity-0 pointer-events-none translate-y-3"}`}
     >
       <ArrowUp size={18} />
     </button>
@@ -193,7 +193,7 @@ function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return (
-    <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? "backdrop-blur-xl bg-[#0d0d0d]/85 border-b border-gold/20" : "bg-transparent border-b border-transparent"}`}>
+    <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? "backdrop-blur-xl bg-[#0a1424]/85 border-b border-gold/20" : "bg-transparent border-b border-transparent"}`}>
       <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
         <a href="#home" className="flex items-center gap-3">
           <span className="font-display italic text-xl text-gold">ZH</span>
@@ -210,7 +210,7 @@ function Nav() {
           ))}
         </nav>
         <a href="#contact" className="hidden md:inline-flex">
-          <Button className="bg-gold text-[#0d0d0d] hover:bg-gold-light transition-colors uppercase text-[11px] tracking-[0.2em] font-semibold rounded-none px-6 h-10">
+          <Button className="bg-gold text-[#0a1424] hover:bg-gold-light transition-colors uppercase text-[11px] tracking-[0.2em] font-semibold rounded-none px-6 h-10">
             Hire Me
           </Button>
         </a>
@@ -219,13 +219,13 @@ function Nav() {
         </button>
       </div>
       {open && (
-        <div className="md:hidden border-t border-gold/20 bg-[#0d0d0d]/95 backdrop-blur-xl">
+        <div className="md:hidden border-t border-gold/20 bg-[#0a1424]/95 backdrop-blur-xl">
           <div className="px-6 py-4 flex flex-col gap-2">
             {navLinks.map(l => (
               <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-xs uppercase tracking-[0.15em] font-medium text-foreground/70 py-2">{l.label}</a>
             ))}
             <a href="#contact" onClick={() => setOpen(false)} className="mt-2">
-              <Button className="w-full bg-gold text-[#0d0d0d] uppercase text-[11px] tracking-[0.2em] rounded-none">Hire Me</Button>
+              <Button className="w-full bg-gold text-[#0a1424] uppercase text-[11px] tracking-[0.2em] rounded-none">Hire Me</Button>
             </a>
           </div>
         </div>
@@ -239,7 +239,7 @@ function Hero() {
     <section id="home" className="relative border-b border-gold/20">
       <div className="grid lg:grid-cols-[55%_45%] min-h-screen">
         {/* Left: editorial content */}
-        <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 pt-32 pb-16 lg:py-0 bg-[#0d0d0d]">
+        <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 pt-32 pb-16 lg:py-0 bg-[#0a1424]">
           <div className="max-w-xl">
             <div className="animate-fade-up">
               <span className="inline-flex items-center gap-2 text-gold tracking-[0.3em] text-[11px] font-semibold uppercase pb-2 border-b border-gold">
@@ -258,7 +258,7 @@ function Hero() {
             </p>
             <div className="mt-10 flex flex-wrap gap-4 animate-fade-up" style={{ animationDelay: "380ms" }}>
               <a href="#contact">
-                <Button size="lg" className="bg-gold text-[#0d0d0d] hover:bg-gold-light transition-colors uppercase text-xs tracking-[0.2em] font-semibold rounded-none px-10 h-12">
+                <Button size="lg" className="bg-gold text-[#0a1424] hover:bg-gold-light transition-colors uppercase text-xs tracking-[0.2em] font-semibold rounded-none px-10 h-12">
                   Hire Me <ArrowRight size={14} />
                 </Button>
               </a>
@@ -275,12 +275,12 @@ function Hero() {
         </div>
 
         {/* Right: framed portrait panel */}
-        <div className="relative bg-[#141310] flex items-center justify-center py-16 lg:py-0 border-t lg:border-t-0 lg:border-l border-gold/20">
+        <div className="relative bg-[#0f1d33] flex items-center justify-center py-16 lg:py-0 border-t lg:border-t-0 lg:border-l border-gold/20">
           <div className="w-[78%] max-w-[400px] animate-fade-up" style={{ animationDelay: "320ms" }}>
-            <div className="border border-gold/25 p-3 bg-[#0d0d0d]">
+            <div className="border border-gold/25 p-3 bg-[#0a1424]">
               <div className="relative overflow-hidden aspect-[4/5]">
                 <img src={portrait.url} alt="Zulqarnain Haider — Executive Virtual Assistant" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d]/80 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a1424]/80 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
                   <div className="font-display text-white text-lg leading-tight">Zulqarnain Haider</div>
                   <div className="text-gold-light/70 text-[10px] uppercase tracking-[0.25em] mt-1">Virtual Assistant · Lead Gen</div>
@@ -302,7 +302,7 @@ function StatsBar() {
     { value: 15, suffix: "+", label: "Global Clients" },
   ];
   return (
-    <section className="bg-[#141310] border-b border-gold/20">
+    <section className="bg-[#0f1d33] border-b border-gold/20">
       <div className="mx-auto max-w-7xl grid grid-cols-2 md:grid-cols-4 md:divide-x md:divide-gold/20">
         {stats.map((s, i) => (
           <Reveal key={s.label} delay={i * 80}>
@@ -399,7 +399,7 @@ function Skills() {
           <div className="flex flex-wrap justify-center gap-3">
             {skills.map((s) => (
               <span key={s}
-                className="px-4 py-2 border border-gold/20 bg-[#141310] text-xs uppercase tracking-[0.12em] text-gold-light/70 hover:text-gold-light hover:border-gold/50 transition-colors cursor-default">
+                className="px-4 py-2 border border-gold/20 bg-[#0f1d33] text-xs uppercase tracking-[0.12em] text-gold-light/70 hover:text-gold-light hover:border-gold/50 transition-colors cursor-default">
                 {s}
               </span>
             ))}
@@ -432,7 +432,7 @@ function WhyMe() {
 
 function Process() {
   return (
-    <section className="py-24 bg-[#141310] border-y border-gold/20">
+    <section className="py-24 bg-[#0f1d33] border-y border-gold/20">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHead eyebrow="How I Work" title="A clear four-step process" />
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-gold/15 border border-gold/20">
@@ -509,11 +509,11 @@ function Testimonials() {
     return () => clearInterval(t);
   }, []);
   return (
-    <section className="py-24 bg-[#141310] border-y border-gold/20">
+    <section className="py-24 bg-[#0f1d33] border-y border-gold/20">
       <div className="mx-auto max-w-4xl px-6">
         <SectionHead eyebrow="Testimonials" title="What clients say" center />
         <Reveal>
-          <div className="relative border border-gold/25 bg-[#0d0d0d] p-10 md:p-14 text-center">
+          <div className="relative border border-gold/25 bg-[#0a1424] p-10 md:p-14 text-center">
             <Quote size={30} className="mx-auto text-gold/60 mb-6" />
             <div className="flex items-center justify-center gap-1.5 mb-6 text-gold">
               {Array.from({ length: 5 }).map((_, k) => (
@@ -555,7 +555,7 @@ function CTA() {
                 Let's work together to save your time, organize your data, and manage your daily business tasks more efficiently.
               </p>
               <a href="#contact" className="inline-block mt-9">
-                <Button size="lg" className="bg-gold text-[#0d0d0d] hover:bg-gold-light transition-colors uppercase text-xs tracking-[0.2em] font-semibold rounded-none px-10 h-12">
+                <Button size="lg" className="bg-gold text-[#0a1424] hover:bg-gold-light transition-colors uppercase text-xs tracking-[0.2em] font-semibold rounded-none px-10 h-12">
                   Contact Me <ArrowRight size={14} />
                 </Button>
               </a>
@@ -598,7 +598,7 @@ function Contact() {
     { href: "https://www.linkedin.com/in/zulqarnain-haider-42763b418/", icon: Linkedin, label: "LinkedIn", value: "Zulqarnain Haider", ext: true },
   ];
   return (
-    <section id="contact" className="py-24 bg-[#141310] border-t border-gold/20">
+    <section id="contact" className="py-24 bg-[#0f1d33] border-t border-gold/20">
       <div className="mx-auto max-w-5xl px-6 text-center">
         <SectionHead eyebrow="Contact" title="Let's get in touch" center />
         <Reveal>
@@ -650,7 +650,7 @@ function Footer() {
         <div className="flex items-center gap-3">
           {socials.map(s => (
             <a key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label}
-              className="w-10 h-10 border border-gold/30 flex items-center justify-center text-gold/80 hover:text-[#0d0d0d] hover:bg-gold transition-colors">
+              className="w-10 h-10 border border-gold/30 flex items-center justify-center text-gold/80 hover:text-[#0a1424] hover:bg-gold transition-colors">
               <s.icon size={15} />
             </a>
           ))}
@@ -673,7 +673,7 @@ function FloatingCTA() {
     <a
       href="#contact"
       aria-label="Hire Me"
-      className={`fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 px-6 py-3 bg-gold text-[#0d0d0d] font-semibold text-[11px] uppercase tracking-[0.2em] transition-all duration-300 hover:bg-gold-light ${show ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"}`}
+      className={`fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 px-6 py-3 bg-gold text-[#0a1424] font-semibold text-[11px] uppercase tracking-[0.2em] transition-all duration-300 hover:bg-gold-light ${show ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"}`}
     >
       Hire Me
     </a>
