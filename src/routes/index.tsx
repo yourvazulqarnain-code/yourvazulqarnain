@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import {
   Users, Database, Search, LineChart, Home, Mail, MessageCircle, Linkedin,
   CheckCircle2, ArrowRight, Clock, ShieldCheck, FileSpreadsheet,
-  Menu, X, Quote, Star, MapPin, BarChart3, FileSearch, Briefcase,
-  Download, ArrowUp, Globe2,
+  Menu, X, Quote, Star, MapPin, BarChart3, FileSearch,
+  Download, ArrowUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -162,25 +162,6 @@ function BackgroundFX() {
   );
 }
 
-function LoadingScreen() {
-  const [gone, setGone] = useState(false);
-  const [fade, setFade] = useState(false);
-  useEffect(() => {
-    const t1 = setTimeout(() => setFade(true), 900);
-    const t2 = setTimeout(() => setGone(true), 1500);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, []);
-  if (gone) return null;
-  return (
-    <div className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#0d0d0d] transition-opacity duration-500 ${fade ? "opacity-0" : "opacity-100"}`}>
-      <div className="flex flex-col items-center gap-5">
-        <span className="font-display text-4xl text-gold italic">ZH</span>
-        <div className="h-px w-24 bg-gradient-to-r from-transparent via-gold to-transparent" />
-        <span className="text-[10px] uppercase tracking-[0.4em] text-gold-light/60">Executive Virtual Assistance</span>
-      </div>
-    </div>
-  );
-}
 
 function BackToTop() {
   const [show, setShow] = useState(false);
