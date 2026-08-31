@@ -92,7 +92,7 @@
     letter-spacing: -0.01em;
   }
   h1 { text-wrap: balance; }
-  ::selection { background: rgba(96,165,250,0.35); color: #0d0d0d; }
+  ::selection { background: rgba(96,165,250,0.35); color: #0a1424; }
 }
 
 @utility bg-hero { background: var(--gradient-hero); }
