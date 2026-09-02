@@ -835,6 +835,7 @@ function Portfolio() {
       <Footer />
       <FloatingCTA />
       <BackToTop />
+      <ThemeSwitcher />
     </div>
   );
 }
