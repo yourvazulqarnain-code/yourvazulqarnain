@@ -407,18 +407,18 @@ function Hero() {
           </div>
         </div>
 
-        {/* Right: framed portrait panel */}
-        <div className="relative bg-card flex items-center justify-center py-16 lg:py-0 border-t lg:border-t-0 lg:border-l border-gold/20">
-          <div className="w-[78%] max-w-[400px] animate-fade-up" style={{ animationDelay: "320ms" }}>
-            <div className="border border-gold/25 p-3 bg-background">
-              <div className="relative overflow-hidden aspect-[4/5]">
-                <img src={portrait.url} alt="Zulqarnain Haider — Executive Virtual Assistant" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="font-display text-foreground text-lg leading-tight">Zulqarnain Haider</div>
-                  <div className="text-gold-light/70 text-[10px] uppercase tracking-[0.25em] mt-1">Virtual Assistant · Lead Gen</div>
-                </div>
-              </div>
+        {/* Right: animated compass of core services */}
+        <div className="relative bg-card flex flex-col items-center justify-center gap-8 px-6 py-20 lg:py-0 border-t lg:border-t-0 lg:border-l border-gold/20 overflow-hidden">
+          <div className="w-full animate-fade-up" style={{ animationDelay: "320ms" }}>
+            <CompassOrbit />
+          </div>
+          <div className="flex items-center gap-4 animate-fade-up" style={{ animationDelay: "460ms" }}>
+            <div className="w-16 h-16 rounded-full overflow-hidden border border-gold/40">
+              <img src={portrait.url} alt="Zulqarnain Haider — Executive Virtual Assistant" className="w-full h-full object-cover" />
+            </div>
+            <div>
+              <div className="font-display text-foreground text-base leading-tight">Zulqarnain Haider</div>
+              <div className="text-gold-light/70 text-[10px] uppercase tracking-[0.25em] mt-1">Executive Virtual Assistant</div>
             </div>
           </div>
         </div>
