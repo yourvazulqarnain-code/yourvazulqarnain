@@ -341,3 +341,9 @@
     background: var(--gradient-brand);
   }
 }
+
+@keyframes spin-rev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+@utility animate-spin-rev { animation: spin-rev 14s linear infinite; }
+@utility animate-orbit { animation: spin-slow 34s linear infinite; }
+@utility animate-orbit-rev { animation: spin-rev 34s linear infinite; }
+@utility animate-orbit-slow { animation: spin-slow 52s linear infinite; }
