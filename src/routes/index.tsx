@@ -282,12 +282,13 @@ function CompassOrbit() {
             </span>
           ))}
           {/* needle */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative w-[62%] h-[62%]">
-              <div className="absolute left-1/2 top-0 -translate-x-1/2 w-0 h-0 border-x-[9px] border-x-transparent border-b-[46%] border-b-[color:var(--gold)]" />
-              <div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-0 h-0 border-x-[9px] border-x-transparent border-t-[46%] border-t-gold-light/50" />
-            </div>
-          </div>
+          <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
+            <polygon points="50,16 57,50 50,50" fill="var(--gold)" />
+            <polygon points="50,16 43,50 50,50" fill="var(--gold)" opacity="0.55" />
+            <polygon points="50,84 57,50 50,50" fill="var(--gold-light)" opacity="0.5" />
+            <polygon points="50,84 43,50 50,50" fill="var(--gold-light)" opacity="0.3" />
+            <circle cx="50" cy="50" r="3" fill="var(--gold)" />
+          </svg>
         </div>
         <span className="absolute bottom-[18%] text-[8px] uppercase tracking-[0.3em] text-gold-light/60">Core Services</span>
       </div>
