@@ -158,9 +158,142 @@ function Counter({ to, suffix = "", duration = 1800 }: { to: number; suffix?: st
 // ============ FX ============
 function BackgroundFX() {
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 bg-background" />
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 bg-hero" />
   );
 }
+
+// ============ THEMES ============
+const themes = [
+  { id: "coral-teal", label: "Coral & Teal", dots: ["#fdf6f2", "#e8735a", "#2c6068"] },
+  { id: "teal-night", label: "Teal Night", dots: ["#062a2f", "#f0876b", "#b9ded8"] },
+  { id: "navy-blue", label: "Navy Blue", dots: ["#0a1424", "#3b82f6", "#bfdbfe"] },
+  { id: "noir-gold", label: "Noir & Gold", dots: ["#0d0d0d", "#c9a84c", "#f0d78c"] },
+  { id: "paper-ink", label: "Paper & Ink", dots: ["#f6f4ef", "#b0562c", "#16181a"] },
+  { id: "emerald", label: "Emerald", dots: ["#06231b", "#c9a84c", "#b7e4c9"] },
+  { id: "violet", label: "Violet", dots: ["#0d0a1f", "#a78bfa", "#ddd6fe"] },
+];
+
+function ThemeSwitcher() {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("coral-teal");
+  useEffect(() => {
+    const saved = localStorage.getItem("zh-theme");
+    if (saved) {
+      setActive(saved);
+      document.documentElement.setAttribute("data-theme", saved);
+    }
+  }, []);
+  const pick = (id: string) => {
+    setActive(id);
+    document.documentElement.setAttribute("data-theme", id);
+    localStorage.setItem("zh-theme", id);
+    setOpen(false);
+  };
+  return (
+    <div className="fixed right-6 bottom-24 z-50 flex flex-col items-end gap-3">
+      {open && (
+        <div className="w-56 border border-gold/30 bg-card shadow-elevated p-3 animate-fade-up">
+          <div className="text-[10px] uppercase tracking-[0.25em] text-gold mb-3 px-1">Color theme</div>
+          <div className="flex flex-col">
+            {themes.map((t) => (
+              <button key={t.id} onClick={() => pick(t.id)}
+                className="flex items-center gap-3 px-2 py-2 text-left hover:bg-muted transition-colors">
+                <span className="flex">
+                  {t.dots.map((d, i) => (
+                    <span key={i} className="w-3.5 h-3.5 rounded-full border border-border -ml-1 first:ml-0" style={{ background: d }} />
+                  ))}
+                </span>
+                <span className="text-xs text-foreground/80 flex-1">{t.label}</span>
+                {active === t.id && <Check size={13} className="text-gold" />}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      <button onClick={() => setOpen(!open)} aria-label="Change color theme"
+        className="w-11 h-11 border border-gold/40 bg-card text-gold hover:bg-gold hover:text-background transition-colors flex items-center justify-center">
+        <Palette size={18} />
+      </button>
+    </div>
+  );
+}
+
+// ============ COMPASS ============
+const compassNodes = [
+  { icon: Home, label: "Real Estate VA" },
+  { icon: Calendar, label: "Calendar Mgmt" },
+  { icon: Database, label: "Data Entry" },
+  { icon: LineChart, label: "CRM Migrations" },
+  { icon: Users, label: "Lead Generation" },
+  { icon: FileSpreadsheet, label: "Admin Support" },
+  { icon: BarChart3, label: "Market Research" },
+  { icon: MessageCircle, label: "Client Comms" },
+  { icon: Mail, label: "Email Mgmt" },
+];
+
+function CompassOrbit() {
+  return (
+    <div className="relative w-full max-w-[440px] aspect-square mx-auto">
+      {/* outer dashed ring */}
+      <div className="absolute inset-0 rounded-full border border-dashed border-gold/30 animate-orbit-slow" />
+      {/* orbiting service nodes */}
+      <div className="absolute inset-[8%] animate-orbit">
+        {compassNodes.map((n, i) => {
+          const a = (i / compassNodes.length) * Math.PI * 2 - Math.PI / 2;
+          const x = 50 + 50 * Math.cos(a);
+          const y = 50 + 50 * Math.sin(a);
+          return (
+            <div key={n.label} className="absolute" style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%,-50%)" }}>
+              <div className="animate-orbit-rev">
+                <div className="w-11 h-11 rounded-full border border-gold/35 bg-card flex items-center justify-center shadow-soft" title={n.label}>
+                  <n.icon size={17} strokeWidth={1.6} className="text-gold" />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {/* mid ring */}
+      <div className="absolute inset-[24%] rounded-full border border-gold/20 animate-orbit-rev">
+        {[0, 1, 2, 3, 4, 5].map((i) => {
+          const a = (i / 6) * Math.PI * 2;
+          return (
+            <span key={i} className="absolute w-1.5 h-1.5 rounded-full bg-gold/60"
+              style={{ left: `${50 + 50 * Math.cos(a)}%`, top: `${50 + 50 * Math.sin(a)}%`, transform: "translate(-50%,-50%)" }} />
+          );
+        })}
+      </div>
+      {/* compass core */}
+      <div className="absolute inset-[33%] rounded-full border border-gold/40 bg-card shadow-elevated flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-brand-gradient opacity-10" />
+        <div className="relative w-full h-full animate-spin-slow">
+          {(["N", "E", "S", "W"] as const).map((d, i) => (
+            <span key={d} className="absolute text-[10px] font-semibold tracking-[0.2em] text-gold-light/80"
+              style={{
+                left: i === 1 ? "auto" : i === 3 ? "8%" : "50%",
+                right: i === 1 ? "8%" : "auto",
+                top: i === 0 ? "8%" : i === 2 ? "auto" : "50%",
+                bottom: i === 2 ? "8%" : "auto",
+                transform: i % 2 === 0 ? "translateX(-50%)" : "translateY(-50%)",
+              }}>
+              {d}
+            </span>
+          ))}
+          {/* needle */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="relative w-[62%] h-[62%]">
+              <div className="absolute left-1/2 top-0 -translate-x-1/2 w-0 h-0 border-x-[9px] border-x-transparent border-b-[46%] border-b-[color:var(--gold)]" />
+              <div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-0 h-0 border-x-[9px] border-x-transparent border-t-[46%] border-t-gold-light/50" />
+            </div>
+          </div>
+        </div>
+        <span className="absolute bottom-[18%] text-[8px] uppercase tracking-[0.3em] text-gold-light/60">Core Services</span>
+      </div>
+    </div>
+  );
+}
+
+
 
 
 function BackToTop() {
