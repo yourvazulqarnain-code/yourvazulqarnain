@@ -231,6 +231,11 @@ const compassNodes = [
   { icon: Mail, label: "Email Mgmt" },
 ];
 
+const MID_DOTS: [string, string][] = [
+  ["100%", "50%"], ["75%", "93.3%"], ["25%", "93.3%"],
+  ["0%", "50%"], ["25%", "6.7%"], ["75%", "6.7%"],
+];
+
 function CompassOrbit() {
   return (
     <div className="relative w-full max-w-[440px] aspect-square mx-auto">
@@ -255,13 +260,10 @@ function CompassOrbit() {
       </div>
       {/* mid ring */}
       <div className="absolute inset-[24%] rounded-full border border-gold/20 animate-orbit-rev">
-        {[0, 1, 2, 3, 4, 5].map((i) => {
-          const a = (i / 6) * Math.PI * 2;
-          return (
-            <span key={i} className="absolute w-1.5 h-1.5 rounded-full bg-gold/60"
-              style={{ left: `${(50 + 50 * Math.cos(a)).toFixed(3)}%`, top: `${(50 + 50 * Math.sin(a)).toFixed(3)}%`, transform: "translate(-50%, -50%)" }} />
-          );
-        })}
+        {MID_DOTS.map((d, i) => (
+          <span key={i} className="absolute w-1.5 h-1.5 rounded-full bg-gold/60"
+            style={{ left: d[0], top: d[1], transform: "translate(-50%, -50%)" }} />
+        ))}
       </div>
       {/* compass core */}
       <div className="absolute inset-[33%] rounded-full border border-gold/40 bg-card shadow-elevated flex items-center justify-center overflow-hidden">
