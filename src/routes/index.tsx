@@ -383,8 +383,8 @@ function Hero() {
                 Available for new projects
               </span>
             </div>
-            <h1 className="mt-8 text-4xl md:text-6xl lg:text-7xl text-foreground leading-[1.08] animate-fade-up" style={{ animationDelay: "120ms" }}>
-              Helping businesses <span className="text-gold italic">scale</span> with elite virtual assistance.
+            <h1 className="mt-8 text-3xl md:text-5xl lg:text-6xl text-foreground leading-[1.1] animate-fade-up" style={{ animationDelay: "120ms" }}>
+              Reclaim <span className="text-gold italic">10+ Hours</span> a Week. Scale Your Business with Executive-Level Virtual Assistance.
             </h1>
             <p className="mt-8 text-base md:text-lg text-gold-light/70 max-w-lg leading-relaxed font-light animate-fade-up" style={{ animationDelay: "260ms" }}>
               Executive Assistance · Lead Generation · Recruitment · CRM Management · Appointment Setting · Administrative Support · Real Estate Support · LinkedIn Outreach.
