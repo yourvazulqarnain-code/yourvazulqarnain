@@ -4,7 +4,7 @@ import {
   Users, Database, Search, LineChart, Home, Mail, MessageCircle, Linkedin,
   CheckCircle2, ArrowRight, Clock, ShieldCheck, FileSpreadsheet,
   Menu, X, Quote, Star, MapPin, BarChart3, FileSearch,
-  Download, ArrowUp,
+  Download, ArrowUp, Calendar, Palette, Check,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
