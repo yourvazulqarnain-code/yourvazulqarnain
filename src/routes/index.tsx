@@ -240,10 +240,10 @@ function CompassOrbit() {
       <div className="absolute inset-[8%] animate-orbit">
         {compassNodes.map((n, i) => {
           const a = (i / compassNodes.length) * Math.PI * 2 - Math.PI / 2;
-          const x = 50 + 50 * Math.cos(a);
-          const y = 50 + 50 * Math.sin(a);
+          const x = (50 + 50 * Math.cos(a)).toFixed(3);
+          const y = (50 + 50 * Math.sin(a)).toFixed(3);
           return (
-            <div key={n.label} className="absolute" style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%,-50%)" }}>
+            <div key={n.label} className="absolute" style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}>
               <div className="animate-orbit-rev">
                 <div className="w-11 h-11 rounded-full border border-gold/35 bg-card flex items-center justify-center shadow-soft" title={n.label}>
                   <n.icon size={17} strokeWidth={1.6} className="text-gold" />
@@ -259,7 +259,7 @@ function CompassOrbit() {
           const a = (i / 6) * Math.PI * 2;
           return (
             <span key={i} className="absolute w-1.5 h-1.5 rounded-full bg-gold/60"
-              style={{ left: `${50 + 50 * Math.cos(a)}%`, top: `${50 + 50 * Math.sin(a)}%`, transform: "translate(-50%,-50%)" }} />
+              style={{ left: `${(50 + 50 * Math.cos(a)).toFixed(3)}%`, top: `${(50 + 50 * Math.sin(a)).toFixed(3)}%`, transform: "translate(-50%, -50%)" }} />
           );
         })}
       </div>
