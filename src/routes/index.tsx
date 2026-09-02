@@ -4,7 +4,7 @@ import {
   Users, Database, Search, LineChart, Home, Mail, MessageCircle, Linkedin,
   CheckCircle2, ArrowRight, Clock, ShieldCheck, FileSpreadsheet,
   Menu, X, Quote, Star, MapPin, BarChart3, FileSearch,
-  Download, ArrowUp,
+  Download, ArrowUp, Calendar, Palette, Check,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -158,9 +158,145 @@ function Counter({ to, suffix = "", duration = 1800 }: { to: number; suffix?: st
 // ============ FX ============
 function BackgroundFX() {
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 bg-background" />
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 bg-hero" />
   );
 }
+
+// ============ THEMES ============
+const themes = [
+  { id: "coral-teal", label: "Coral & Teal", dots: ["#fdf6f2", "#e8735a", "#2c6068"] },
+  { id: "teal-night", label: "Teal Night", dots: ["#062a2f", "#f0876b", "#b9ded8"] },
+  { id: "navy-blue", label: "Navy Blue", dots: ["#0a1424", "#3b82f6", "#bfdbfe"] },
+  { id: "noir-gold", label: "Noir & Gold", dots: ["#0d0d0d", "#c9a84c", "#f0d78c"] },
+  { id: "paper-ink", label: "Paper & Ink", dots: ["#f6f4ef", "#b0562c", "#16181a"] },
+  { id: "emerald", label: "Emerald", dots: ["#06231b", "#c9a84c", "#b7e4c9"] },
+  { id: "violet", label: "Violet", dots: ["#0d0a1f", "#a78bfa", "#ddd6fe"] },
+];
+
+function ThemeSwitcher() {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("coral-teal");
+  useEffect(() => {
+    const saved = localStorage.getItem("zh-theme");
+    if (saved) {
+      setActive(saved);
+      document.documentElement.setAttribute("data-theme", saved);
+    }
+  }, []);
+  const pick = (id: string) => {
+    setActive(id);
+    document.documentElement.setAttribute("data-theme", id);
+    localStorage.setItem("zh-theme", id);
+    setOpen(false);
+  };
+  return (
+    <div className="fixed right-6 bottom-24 z-50 flex flex-col items-end gap-3">
+      {open && (
+        <div className="w-56 border border-gold/30 bg-card shadow-elevated p-3 animate-fade-up">
+          <div className="text-[10px] uppercase tracking-[0.25em] text-gold mb-3 px-1">Color theme</div>
+          <div className="flex flex-col">
+            {themes.map((t) => (
+              <button key={t.id} onClick={() => pick(t.id)}
+                className="flex items-center gap-3 px-2 py-2 text-left hover:bg-muted transition-colors">
+                <span className="flex">
+                  {t.dots.map((d, i) => (
+                    <span key={i} className="w-3.5 h-3.5 rounded-full border border-border -ml-1 first:ml-0" style={{ background: d }} />
+                  ))}
+                </span>
+                <span className="text-xs text-foreground/80 flex-1">{t.label}</span>
+                {active === t.id && <Check size={13} className="text-gold" />}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      <button onClick={() => setOpen(!open)} aria-label="Change color theme"
+        className="w-11 h-11 border border-gold/40 bg-card text-gold hover:bg-gold hover:text-background transition-colors flex items-center justify-center">
+        <Palette size={18} />
+      </button>
+    </div>
+  );
+}
+
+// ============ COMPASS ============
+const compassNodes = [
+  { icon: Home, label: "Real Estate VA" },
+  { icon: Calendar, label: "Calendar Mgmt" },
+  { icon: Database, label: "Data Entry" },
+  { icon: LineChart, label: "CRM Migrations" },
+  { icon: Users, label: "Lead Generation" },
+  { icon: FileSpreadsheet, label: "Admin Support" },
+  { icon: BarChart3, label: "Market Research" },
+  { icon: MessageCircle, label: "Client Comms" },
+  { icon: Mail, label: "Email Mgmt" },
+];
+
+const MID_DOTS: [string, string][] = [
+  ["100%", "50%"], ["75%", "93.3%"], ["25%", "93.3%"],
+  ["0%", "50%"], ["25%", "6.7%"], ["75%", "6.7%"],
+];
+
+function CompassOrbit() {
+  return (
+    <div className="relative w-full max-w-[440px] aspect-square mx-auto">
+      {/* outer dashed ring */}
+      <div className="absolute inset-0 rounded-full border border-dashed border-gold/30 animate-orbit-slow" />
+      {/* orbiting service nodes */}
+      <div className="absolute inset-[8%] animate-orbit">
+        {compassNodes.map((n, i) => {
+          const a = (i / compassNodes.length) * Math.PI * 2 - Math.PI / 2;
+          const x = (50 + 50 * Math.cos(a)).toFixed(3);
+          const y = (50 + 50 * Math.sin(a)).toFixed(3);
+          return (
+            <div key={n.label} className="absolute" style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}>
+              <div className="animate-orbit-rev">
+                <div className="w-11 h-11 rounded-full border border-gold/35 bg-card flex items-center justify-center shadow-soft" title={n.label}>
+                  <n.icon size={17} strokeWidth={1.6} className="text-gold" />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {/* mid ring */}
+      <div className="absolute inset-[24%] rounded-full border border-gold/20 animate-orbit-rev">
+        {MID_DOTS.map((d, i) => (
+          <span key={i} className="absolute w-1.5 h-1.5 rounded-full bg-gold/60"
+            style={{ left: d[0], top: d[1], transform: "translate(-50%, -50%)" }} />
+        ))}
+      </div>
+      {/* compass core */}
+      <div className="absolute inset-[33%] rounded-full border border-gold/40 bg-card shadow-elevated flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-brand-gradient opacity-10" />
+        <div className="relative w-full h-full animate-spin-slow">
+          {(["N", "E", "S", "W"] as const).map((d, i) => (
+            <span key={d} className="absolute text-[10px] font-semibold tracking-[0.2em] text-gold-light/80"
+              style={{
+                left: i === 1 ? "auto" : i === 3 ? "8%" : "50%",
+                right: i === 1 ? "8%" : "auto",
+                top: i === 0 ? "8%" : i === 2 ? "auto" : "50%",
+                bottom: i === 2 ? "8%" : "auto",
+                transform: i % 2 === 0 ? "translateX(-50%)" : "translateY(-50%)",
+              }}>
+              {d}
+            </span>
+          ))}
+          {/* needle */}
+          <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
+            <polygon points="50,16 57,50 50,50" fill="var(--gold)" />
+            <polygon points="50,16 43,50 50,50" fill="var(--gold)" opacity="0.55" />
+            <polygon points="50,84 57,50 50,50" fill="var(--gold-light)" opacity="0.5" />
+            <polygon points="50,84 43,50 50,50" fill="var(--gold-light)" opacity="0.3" />
+            <circle cx="50" cy="50" r="3" fill="var(--gold)" />
+          </svg>
+        </div>
+        <span className="absolute bottom-[18%] text-[8px] uppercase tracking-[0.3em] text-gold-light/60">Core Services</span>
+      </div>
+    </div>
+  );
+}
+
+
 
 
 function BackToTop() {
@@ -175,7 +311,7 @@ function BackToTop() {
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label="Back to top"
-      className={`fixed bottom-6 left-6 z-40 w-11 h-11 border border-gold/40 bg-[#0a1424] flex items-center justify-center text-gold hover:bg-gold hover:text-[#0a1424] transition-all ${show ? "opacity-100" : "opacity-0 pointer-events-none translate-y-3"}`}
+      className={`fixed bottom-6 left-6 z-40 w-11 h-11 border border-gold/40 bg-background flex items-center justify-center text-gold hover:bg-gold hover:text-background transition-all ${show ? "opacity-100" : "opacity-0 pointer-events-none translate-y-3"}`}
     >
       <ArrowUp size={18} />
     </button>
@@ -193,7 +329,7 @@ function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return (
-    <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? "backdrop-blur-xl bg-[#0a1424]/85 border-b border-gold/20" : "bg-transparent border-b border-transparent"}`}>
+    <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? "backdrop-blur-xl bg-background/85 border-b border-gold/20" : "bg-transparent border-b border-transparent"}`}>
       <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
         <a href="#home" className="flex items-center gap-3">
           <span className="font-display italic text-xl text-gold">ZH</span>
@@ -210,7 +346,7 @@ function Nav() {
           ))}
         </nav>
         <a href="#contact" className="hidden md:inline-flex">
-          <Button className="bg-gold text-[#0a1424] hover:bg-gold-light transition-colors uppercase text-[11px] tracking-[0.2em] font-semibold rounded-none px-6 h-10">
+          <Button className="bg-gold text-background hover:bg-gold-light transition-colors uppercase text-[11px] tracking-[0.2em] font-semibold rounded-none px-6 h-10">
             Hire Me
           </Button>
         </a>
@@ -219,13 +355,13 @@ function Nav() {
         </button>
       </div>
       {open && (
-        <div className="md:hidden border-t border-gold/20 bg-[#0a1424]/95 backdrop-blur-xl">
+        <div className="md:hidden border-t border-gold/20 bg-background/95 backdrop-blur-xl">
           <div className="px-6 py-4 flex flex-col gap-2">
             {navLinks.map(l => (
               <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-xs uppercase tracking-[0.15em] font-medium text-foreground/70 py-2">{l.label}</a>
             ))}
             <a href="#contact" onClick={() => setOpen(false)} className="mt-2">
-              <Button className="w-full bg-gold text-[#0a1424] uppercase text-[11px] tracking-[0.2em] rounded-none">Hire Me</Button>
+              <Button className="w-full bg-gold text-background uppercase text-[11px] tracking-[0.2em] rounded-none">Hire Me</Button>
             </a>
           </div>
         </div>
@@ -239,7 +375,7 @@ function Hero() {
     <section id="home" className="relative border-b border-gold/20">
       <div className="grid lg:grid-cols-[55%_45%] min-h-screen">
         {/* Left: editorial content */}
-        <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 pt-32 pb-16 lg:py-0 bg-[#0a1424]">
+        <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 pt-32 pb-16 lg:py-0 bg-background">
           <div className="max-w-xl">
             <div className="animate-fade-up">
               <span className="inline-flex items-center gap-2 text-gold tracking-[0.3em] text-[11px] font-semibold uppercase pb-2 border-b border-gold">
@@ -250,15 +386,15 @@ function Hero() {
                 Available for new projects
               </span>
             </div>
-            <h1 className="mt-8 text-4xl md:text-6xl lg:text-7xl text-white leading-[1.08] animate-fade-up" style={{ animationDelay: "120ms" }}>
-              Helping businesses <span className="text-gold italic">scale</span> with elite virtual assistance.
+            <h1 className="mt-8 text-3xl md:text-5xl lg:text-6xl text-foreground leading-[1.1] animate-fade-up" style={{ animationDelay: "120ms" }}>
+              Reclaim <span className="text-gold italic">10+ Hours</span> a Week. Scale Your Business with Executive-Level Virtual Assistance.
             </h1>
             <p className="mt-8 text-base md:text-lg text-gold-light/70 max-w-lg leading-relaxed font-light animate-fade-up" style={{ animationDelay: "260ms" }}>
               Executive Assistance · Lead Generation · Recruitment · CRM Management · Appointment Setting · Administrative Support · Real Estate Support · LinkedIn Outreach.
             </p>
             <div className="mt-10 flex flex-wrap gap-4 animate-fade-up" style={{ animationDelay: "380ms" }}>
               <a href="#contact">
-                <Button size="lg" className="bg-gold text-[#0a1424] hover:bg-gold-light transition-colors uppercase text-xs tracking-[0.2em] font-semibold rounded-none px-10 h-12">
+                <Button size="lg" className="bg-gold text-background hover:bg-gold-light transition-colors uppercase text-xs tracking-[0.2em] font-semibold rounded-none px-10 h-12">
                   Hire Me <ArrowRight size={14} />
                 </Button>
               </a>
@@ -274,18 +410,18 @@ function Hero() {
           </div>
         </div>
 
-        {/* Right: framed portrait panel */}
-        <div className="relative bg-[#0f1d33] flex items-center justify-center py-16 lg:py-0 border-t lg:border-t-0 lg:border-l border-gold/20">
-          <div className="w-[78%] max-w-[400px] animate-fade-up" style={{ animationDelay: "320ms" }}>
-            <div className="border border-gold/25 p-3 bg-[#0a1424]">
-              <div className="relative overflow-hidden aspect-[4/5]">
-                <img src={portrait.url} alt="Zulqarnain Haider — Executive Virtual Assistant" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a1424]/80 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="font-display text-white text-lg leading-tight">Zulqarnain Haider</div>
-                  <div className="text-gold-light/70 text-[10px] uppercase tracking-[0.25em] mt-1">Virtual Assistant · Lead Gen</div>
-                </div>
-              </div>
+        {/* Right: animated compass of core services */}
+        <div className="relative bg-card flex flex-col items-center justify-center gap-8 px-6 py-20 lg:py-0 border-t lg:border-t-0 lg:border-l border-gold/20 overflow-hidden">
+          <div className="w-full animate-fade-up" style={{ animationDelay: "320ms" }}>
+            <CompassOrbit />
+          </div>
+          <div className="flex items-center gap-4 animate-fade-up" style={{ animationDelay: "460ms" }}>
+            <div className="w-16 h-16 rounded-full overflow-hidden border border-gold/40">
+              <img src={portrait.url} alt="Zulqarnain Haider — Executive Virtual Assistant" className="w-full h-full object-cover" />
+            </div>
+            <div>
+              <div className="font-display text-foreground text-base leading-tight">Zulqarnain Haider</div>
+              <div className="text-gold-light/70 text-[10px] uppercase tracking-[0.25em] mt-1">Executive Virtual Assistant</div>
             </div>
           </div>
         </div>
@@ -302,7 +438,7 @@ function StatsBar() {
     { value: 15, suffix: "+", label: "Global Clients" },
   ];
   return (
-    <section className="bg-[#0f1d33] border-b border-gold/20">
+    <section className="bg-card border-b border-gold/20">
       <div className="mx-auto max-w-7xl grid grid-cols-2 md:grid-cols-4 md:divide-x md:divide-gold/20">
         {stats.map((s, i) => (
           <Reveal key={s.label} delay={i * 80}>
@@ -344,7 +480,7 @@ function SectionHead({ eyebrow, title, center = false }: { eyebrow: string; titl
       <span className="overline-gold mb-5">
         <span className="h-px w-6 bg-gold" /> {eyebrow} {center && <span className="h-px w-6 bg-gold" />}
       </span>
-      <h2 className="text-3xl md:text-5xl text-white leading-tight">{title}</h2>
+      <h2 className="text-3xl md:text-5xl text-foreground leading-tight">{title}</h2>
       <div className={`mt-6 h-px w-16 bg-gold/60 ${center ? "mx-auto" : ""}`} />
     </Reveal>
   );
@@ -358,7 +494,7 @@ function About() {
         <Reveal>
           <div className="space-y-5 text-gold-light/70 leading-relaxed text-lg font-light">
             <p>
-              Hi, I'm <span className="text-white font-medium">Zulqarnain Haider</span>, a professional Virtual Assistant with experience in lead generation, data entry, web research, CRM management, and administrative support. I help business owners, real estate professionals, recruiters, and agencies stay organized by managing research, data, spreadsheets, and daily operational tasks.
+              Hi, I'm <span className="text-foreground font-medium">Zulqarnain Haider</span>, a professional Virtual Assistant with experience in lead generation, data entry, web research, CRM management, and administrative support. I help business owners, real estate professionals, recruiters, and agencies stay organized by managing research, data, spreadsheets, and daily operational tasks.
             </p>
             <p className="font-display italic text-gold-light">My focus is simple: accurate work, clear communication, fast turnaround, and reliable support.</p>
           </div>
@@ -376,9 +512,9 @@ function Services() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-gold/15 border border-gold/20">
           {services.map((s, i) => (
             <Reveal key={s.title} delay={i * 60}>
-              <div className="group h-full p-10 bg-[#121110] hover:bg-[#171512] transition-colors duration-500">
+              <div className="group h-full p-10 bg-card hover:bg-muted transition-colors duration-500">
                 <s.icon size={26} strokeWidth={1.5} className="text-gold mb-6 transform group-hover:-translate-y-1 transition-transform duration-300" />
-                <h3 className="font-display text-xl text-white mb-4">{s.title}</h3>
+                <h3 className="font-display text-xl text-foreground mb-4">{s.title}</h3>
                 <p className="text-sm text-gold-light/60 leading-relaxed">{s.desc}</p>
                 <div className="mt-6 h-px w-0 bg-gold group-hover:w-12 transition-all duration-500" />
               </div>
@@ -399,7 +535,7 @@ function Skills() {
           <div className="flex flex-wrap justify-center gap-3">
             {skills.map((s) => (
               <span key={s}
-                className="px-4 py-2 border border-gold/20 bg-[#0f1d33] text-xs uppercase tracking-[0.12em] text-gold-light/70 hover:text-gold-light hover:border-gold/50 transition-colors cursor-default">
+                className="px-4 py-2 border border-gold/20 bg-card text-xs uppercase tracking-[0.12em] text-gold-light/70 hover:text-gold-light hover:border-gold/50 transition-colors cursor-default">
                 {s}
               </span>
             ))}
@@ -432,15 +568,15 @@ function WhyMe() {
 
 function Process() {
   return (
-    <section className="py-24 bg-[#0f1d33] border-y border-gold/20">
+    <section className="py-24 bg-card border-y border-gold/20">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHead eyebrow="How I Work" title="A clear four-step process" />
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-gold/15 border border-gold/20">
           {process.map((p, i) => (
             <Reveal key={p.n} delay={i * 80}>
-              <div className="h-full p-8 bg-[#121110] hover:bg-[#171512] transition-colors duration-500">
+              <div className="h-full p-8 bg-card hover:bg-muted transition-colors duration-500">
                 <div className="font-display italic text-4xl text-gold/70 mb-4">{p.n}</div>
-                <h3 className="font-display text-lg text-white mb-3">{p.title}</h3>
+                <h3 className="font-display text-lg text-foreground mb-3">{p.title}</h3>
                 <p className="text-sm text-gold-light/60 leading-relaxed">{p.desc}</p>
               </div>
             </Reveal>
@@ -463,7 +599,7 @@ function Experience() {
               <div className="relative">
                 <div className="absolute -left-[41px] top-1.5 w-3 h-3 rotate-45 bg-gold" />
                 <div className="text-[10px] font-semibold text-gold mb-2 uppercase tracking-[0.25em]">{e.period}</div>
-                <h3 className="font-display text-xl text-white">{e.role} <span className="text-gold-light/50 font-normal">— {e.company}</span></h3>
+                <h3 className="font-display text-xl text-foreground">{e.role} <span className="text-gold-light/50 font-normal">— {e.company}</span></h3>
                 <p className="mt-3 text-gold-light/60 leading-relaxed font-light">{e.desc}</p>
               </div>
             </Reveal>
@@ -482,12 +618,12 @@ function PortfolioSection() {
         <div className="grid md:grid-cols-2 gap-px bg-gold/15 border border-gold/20">
           {portfolio.map((p, i) => (
             <Reveal key={p.title} delay={i * 70}>
-              <div className="group h-full p-10 bg-[#121110] hover:bg-[#171512] transition-colors duration-500">
+              <div className="group h-full p-10 bg-card hover:bg-muted transition-colors duration-500">
                 <div className="flex items-start justify-between mb-6">
                   <p.icon size={26} strokeWidth={1.5} className="text-gold" />
                   <span className="font-display italic text-sm text-gold/50">0{i+1} / 0{portfolio.length}</span>
                 </div>
-                <h3 className="font-display text-xl text-white mb-4">{p.title}</h3>
+                <h3 className="font-display text-xl text-foreground mb-4">{p.title}</h3>
                 <p className="text-sm text-gold-light/60 leading-relaxed">{p.desc}</p>
                 <div className="mt-6 h-px w-0 bg-gold group-hover:w-12 transition-all duration-500" />
               </div>
@@ -509,18 +645,18 @@ function Testimonials() {
     return () => clearInterval(t);
   }, []);
   return (
-    <section className="py-24 bg-[#0f1d33] border-y border-gold/20">
+    <section className="py-24 bg-card border-y border-gold/20">
       <div className="mx-auto max-w-4xl px-6">
         <SectionHead eyebrow="Testimonials" title="What clients say" center />
         <Reveal>
-          <div className="relative border border-gold/25 bg-[#0a1424] p-10 md:p-14 text-center">
+          <div className="relative border border-gold/25 bg-background p-10 md:p-14 text-center">
             <Quote size={30} className="mx-auto text-gold/60 mb-6" />
             <div className="flex items-center justify-center gap-1.5 mb-6 text-gold">
               {Array.from({ length: 5 }).map((_, k) => (
                 <Star key={k} size={15} fill="currentColor" strokeWidth={0} />
               ))}
             </div>
-            <p key={idx} className="font-display text-xl md:text-2xl text-white leading-relaxed animate-fade-up">
+            <p key={idx} className="font-display text-xl md:text-2xl text-foreground leading-relaxed animate-fade-up">
               "{testimonials[idx].text}"
             </p>
             <div className="mt-9 flex items-center justify-center gap-4">
@@ -547,15 +683,15 @@ function CTA() {
     <section className="py-24">
       <div className="mx-auto max-w-5xl px-6">
         <Reveal>
-          <div className="relative border border-gold/30 bg-[#121110] p-10 md:p-16 text-center">
+          <div className="relative border border-gold/30 bg-card p-10 md:p-16 text-center">
             <div className="relative">
               <span className="overline-gold mb-6"><span className="h-px w-6 bg-gold" /> Let's Talk <span className="h-px w-6 bg-gold" /></span>
-              <h2 className="text-3xl md:text-5xl text-white">Need reliable <span className="text-gold italic">VA support</span>?</h2>
+              <h2 className="text-3xl md:text-5xl text-foreground">Need reliable <span className="text-gold italic">VA support</span>?</h2>
               <p className="mt-5 text-gold-light/70 max-w-2xl mx-auto text-lg font-light">
                 Let's work together to save your time, organize your data, and manage your daily business tasks more efficiently.
               </p>
               <a href="#contact" className="inline-block mt-9">
-                <Button size="lg" className="bg-gold text-[#0a1424] hover:bg-gold-light transition-colors uppercase text-xs tracking-[0.2em] font-semibold rounded-none px-10 h-12">
+                <Button size="lg" className="bg-gold text-background hover:bg-gold-light transition-colors uppercase text-xs tracking-[0.2em] font-semibold rounded-none px-10 h-12">
                   Contact Me <ArrowRight size={14} />
                 </Button>
               </a>
@@ -575,8 +711,8 @@ function FAQ() {
         <Reveal>
           <Accordion type="single" collapsible className="w-full space-y-3">
             {faqs.map((f, i) => (
-              <AccordionItem key={i} value={`item-${i}`} className="border border-gold/20 bg-[#121110] px-6 data-[state=open]:border-gold/40 transition-colors">
-                <AccordionTrigger className="text-left text-white font-display text-base hover:no-underline">
+              <AccordionItem key={i} value={`item-${i}`} className="border border-gold/20 bg-card px-6 data-[state=open]:border-gold/40 transition-colors">
+                <AccordionTrigger className="text-left text-foreground font-display text-base hover:no-underline">
                   {f.q}
                 </AccordionTrigger>
                 <AccordionContent className="text-gold-light/60 leading-relaxed font-light">
@@ -598,7 +734,7 @@ function Contact() {
     { href: "https://www.linkedin.com/in/zulqarnain-haider-42763b418/", icon: Linkedin, label: "LinkedIn", value: "Zulqarnain Haider", ext: true },
   ];
   return (
-    <section id="contact" className="py-24 bg-[#0f1d33] border-t border-gold/20">
+    <section id="contact" className="py-24 bg-card border-t border-gold/20">
       <div className="mx-auto max-w-5xl px-6 text-center">
         <SectionHead eyebrow="Contact" title="Let's get in touch" center />
         <Reveal>
@@ -612,12 +748,12 @@ function Contact() {
               <a
                 href={c.href}
                 {...(c.ext ? { target: "_blank", rel: "noreferrer" } : {})}
-                className="group h-full flex flex-col items-center gap-5 p-10 bg-[#121110] hover:bg-[#171512] transition-colors duration-500"
+                className="group h-full flex flex-col items-center gap-5 p-10 bg-card hover:bg-muted transition-colors duration-500"
               >
                 <c.icon size={24} strokeWidth={1.5} className="text-gold group-hover:-translate-y-1 transition-transform duration-300" />
                 <div>
                   <div className="text-[10px] uppercase tracking-[0.25em] text-gold-light/50 mb-2">{c.label}</div>
-                  <div className="font-medium text-white break-all text-sm">{c.value}</div>
+                  <div className="font-medium text-foreground break-all text-sm">{c.value}</div>
                 </div>
               </a>
             </Reveal>
@@ -650,7 +786,7 @@ function Footer() {
         <div className="flex items-center gap-3">
           {socials.map(s => (
             <a key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label}
-              className="w-10 h-10 border border-gold/30 flex items-center justify-center text-gold/80 hover:text-[#0a1424] hover:bg-gold transition-colors">
+              className="w-10 h-10 border border-gold/30 flex items-center justify-center text-gold/80 hover:text-background hover:bg-gold transition-colors">
               <s.icon size={15} />
             </a>
           ))}
@@ -673,7 +809,7 @@ function FloatingCTA() {
     <a
       href="#contact"
       aria-label="Hire Me"
-      className={`fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 px-6 py-3 bg-gold text-[#0a1424] font-semibold text-[11px] uppercase tracking-[0.2em] transition-all duration-300 hover:bg-gold-light ${show ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"}`}
+      className={`fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 px-6 py-3 bg-gold text-background font-semibold text-[11px] uppercase tracking-[0.2em] transition-all duration-300 hover:bg-gold-light ${show ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"}`}
     >
       Hire Me
     </a>
@@ -702,6 +838,7 @@ function Portfolio() {
       <Footer />
       <FloatingCTA />
       <BackToTop />
+      <ThemeSwitcher />
     </div>
   );
 }

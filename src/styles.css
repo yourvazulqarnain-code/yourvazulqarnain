@@ -40,40 +40,169 @@
 
 :root {
   --radius: 0.5rem;
-  /* Executive Navy & Blue — professional corporate palette */
+  /* Default: Coral & Teal (from brand banner) */
+  --background: #fdf6f2;
+  --foreground: #12333a;
+  --card: #f7ebe4;
+  --card-foreground: #12333a;
+  --popover: #fdf6f2;
+  --popover-foreground: #12333a;
+  --primary: #e8735a;
+  --primary-foreground: #fdf6f2;
+  --secondary: #f7ebe4;
+  --secondary-foreground: #12333a;
+  --muted: #f1e2da;
+  --muted-foreground: rgba(18,51,58,0.62);
+  --accent: rgba(232,115,90,0.12);
+  --accent-foreground: #b8503a;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: rgba(18,51,58,0.14);
+  --input: rgba(18,51,58,0.24);
+  --ring: #e8735a;
+  --navy: #12333a;
+  --navy-foreground: #fdf6f2;
+  --brand: #e8735a;
+  --brand-foreground: #fdf6f2;
+  /* accent pair used across the site */
+  --gold: #e8735a;
+  --gold-light: #2c6068;
+
+  --gradient-hero: linear-gradient(120deg, #fbe3d8 0%, #f8efe8 40%, #d8e8e6 100%);
+  --gradient-brand: linear-gradient(135deg, #f0876b 0%, #e8735a 50%, #2c6068 100%);
+  --gradient-text: linear-gradient(92deg, #12333a, #2c6068 45%, #e8735a);
+  --shadow-soft: 0 1px 2px rgba(18,51,58,0.06), 0 16px 44px -18px rgba(18,51,58,0.16);
+  --shadow-elevated: 0 28px 80px -28px rgba(18,51,58,0.25);
+  --shadow-glow: 0 0 40px rgba(232,115,90,0.30);
+}
+
+/* ============ THEME VARIANTS ============ */
+[data-theme="teal-night"] {
+  --background: #062a2f;
+  --foreground: #eaf6f4;
+  --card: #0a3a40;
+  --popover: #0a3a40;
+  --card-foreground: #eaf6f4;
+  --popover-foreground: #eaf6f4;
+  --muted: rgba(255,255,255,0.06);
+  --muted-foreground: rgba(234,246,244,0.65);
+  --border: rgba(240,135,107,0.22);
+  --input: rgba(240,135,107,0.3);
+  --primary: #f0876b;
+  --primary-foreground: #062a2f;
+  --ring: #f0876b;
+  --gold: #f0876b;
+  --gold-light: #b9ded8;
+  --gradient-hero: linear-gradient(120deg, #062a2f, #0a3a40);
+  --gradient-brand: linear-gradient(135deg, #f0876b, #ffb59c);
+  --gradient-text: linear-gradient(92deg, #eaf6f4, #b9ded8 45%, #f0876b);
+}
+
+[data-theme="navy-blue"] {
   --background: #0a1424;
   --foreground: #eef3fa;
   --card: #0f1d33;
-  --card-foreground: #eef3fa;
   --popover: #0d1a2e;
+  --card-foreground: #eef3fa;
   --popover-foreground: #eef3fa;
-  --primary: #3b82f6;
-  --primary-foreground: #061020;
-  --secondary: #0f1d33;
-  --secondary-foreground: #dce7f7;
   --muted: rgba(147,197,253,0.07);
   --muted-foreground: rgba(203,225,255,0.62);
-  --accent: rgba(59,130,246,0.12);
-  --accent-foreground: #93c5fd;
-  --destructive: #dc2626;
-  --destructive-foreground: #ffffff;
   --border: rgba(96,165,250,0.20);
   --input: rgba(96,165,250,0.30);
+  --primary: #3b82f6;
+  --primary-foreground: #061020;
   --ring: #3b82f6;
-  --navy: #0a1424;
-  --navy-foreground: #eef3fa;
-  --brand: #3b82f6;
-  --brand-foreground: #061020;
   --gold: #60a5fa;
   --gold-light: #bfdbfe;
-
-  --gradient-hero: radial-gradient(ellipse at 75% 10%, rgba(59,130,246,0.12), transparent 55%), linear-gradient(180deg, #0a1424, #0c1a2e);
-  --gradient-brand: linear-gradient(135deg, #2563eb 0%, #60a5fa 55%, #1d4ed8 100%);
+  --gradient-hero: linear-gradient(180deg, #0a1424, #0c1a2e);
+  --gradient-brand: linear-gradient(135deg, #2563eb, #60a5fa);
   --gradient-text: linear-gradient(92deg, #ffffff, #bfdbfe 45%, #60a5fa);
-  --shadow-soft: 0 1px 2px rgba(0,0,0,0.5), 0 16px 44px -18px rgba(59,130,246,0.28);
-  --shadow-elevated: 0 28px 80px -28px rgba(0,0,0,0.8), 0 0 0 1px rgba(96,165,250,0.14) inset;
-  --shadow-glow: 0 0 40px rgba(59,130,246,0.30);
 }
+
+[data-theme="noir-gold"] {
+  --background: #0d0d0d;
+  --foreground: #f5f1e6;
+  --card: #151412;
+  --popover: #151412;
+  --card-foreground: #f5f1e6;
+  --popover-foreground: #f5f1e6;
+  --muted: rgba(201,168,76,0.08);
+  --muted-foreground: rgba(245,241,230,0.6);
+  --border: rgba(201,168,76,0.22);
+  --input: rgba(201,168,76,0.3);
+  --primary: #c9a84c;
+  --primary-foreground: #0d0d0d;
+  --ring: #c9a84c;
+  --gold: #c9a84c;
+  --gold-light: #f0d78c;
+  --gradient-hero: linear-gradient(180deg, #0d0d0d, #141310);
+  --gradient-brand: linear-gradient(135deg, #c9a84c, #f0d78c);
+  --gradient-text: linear-gradient(92deg, #ffffff, #f0d78c 45%, #c9a84c);
+}
+
+[data-theme="paper-ink"] {
+  --background: #f6f4ef;
+  --foreground: #16181a;
+  --card: #ece8e0;
+  --popover: #ece8e0;
+  --card-foreground: #16181a;
+  --popover-foreground: #16181a;
+  --muted: #e2ddd3;
+  --muted-foreground: rgba(22,24,26,0.6);
+  --border: rgba(22,24,26,0.14);
+  --input: rgba(22,24,26,0.25);
+  --primary: #16181a;
+  --primary-foreground: #f6f4ef;
+  --ring: #16181a;
+  --gold: #b0562c;
+  --gold-light: #3c3a35;
+  --gradient-hero: linear-gradient(120deg, #f6f4ef, #e7e2d8);
+  --gradient-brand: linear-gradient(135deg, #b0562c, #d98550);
+  --gradient-text: linear-gradient(92deg, #16181a, #3c3a35 45%, #b0562c);
+}
+
+[data-theme="emerald"] {
+  --background: #06231b;
+  --foreground: #eefaf3;
+  --card: #0b3327;
+  --popover: #0b3327;
+  --card-foreground: #eefaf3;
+  --popover-foreground: #eefaf3;
+  --muted: rgba(255,255,255,0.06);
+  --muted-foreground: rgba(238,250,243,0.65);
+  --border: rgba(201,168,76,0.2);
+  --input: rgba(201,168,76,0.3);
+  --primary: #c9a84c;
+  --primary-foreground: #06231b;
+  --ring: #c9a84c;
+  --gold: #c9a84c;
+  --gold-light: #b7e4c9;
+  --gradient-hero: linear-gradient(120deg, #06231b, #0b3327);
+  --gradient-brand: linear-gradient(135deg, #c9a84c, #f5f0e0);
+  --gradient-text: linear-gradient(92deg, #ffffff, #b7e4c9 45%, #c9a84c);
+}
+
+[data-theme="violet"] {
+  --background: #0d0a1f;
+  --foreground: #f1eefe;
+  --card: #171233;
+  --popover: #171233;
+  --card-foreground: #f1eefe;
+  --popover-foreground: #f1eefe;
+  --muted: rgba(255,255,255,0.06);
+  --muted-foreground: rgba(241,238,254,0.65);
+  --border: rgba(167,139,250,0.22);
+  --input: rgba(167,139,250,0.3);
+  --primary: #a78bfa;
+  --primary-foreground: #0d0a1f;
+  --ring: #a78bfa;
+  --gold: #a78bfa;
+  --gold-light: #ddd6fe;
+  --gradient-hero: linear-gradient(120deg, #0d0a1f, #171233);
+  --gradient-brand: linear-gradient(135deg, #7c3aed, #a78bfa);
+  --gradient-text: linear-gradient(92deg, #ffffff, #ddd6fe 45%, #a78bfa);
+}
+
 
 
 @layer base {
@@ -212,3 +341,9 @@
     background: var(--gradient-brand);
   }
 }
+
+@keyframes spin-rev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+@utility animate-spin-rev { animation: spin-rev 14s linear infinite; }
+@utility animate-orbit { animation: spin-slow 34s linear infinite; }
+@utility animate-orbit-rev { animation: spin-rev 34s linear infinite; }
+@utility animate-orbit-slow { animation: spin-slow 52s linear infinite; }
