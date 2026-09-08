@@ -410,18 +410,28 @@ function Hero() {
           </div>
         </div>
 
-        {/* Right: animated compass of core services */}
-        <div className="relative bg-card flex flex-col items-center justify-center gap-8 px-6 py-20 lg:py-0 border-t lg:border-t-0 lg:border-l border-gold/20 overflow-hidden">
-          <div className="w-full animate-fade-up" style={{ animationDelay: "320ms" }}>
+        {/* Right: portrait with animated compass as a supporting visual */}
+        <div className="relative bg-card flex items-center justify-center px-6 py-20 lg:py-24 border-t lg:border-t-0 lg:border-l border-gold/20 overflow-hidden">
+          <div className="absolute w-[280px] sm:w-[340px] lg:w-[300px] xl:w-[360px] -right-20 sm:-right-10 lg:-right-24 xl:-right-16 bottom-4 opacity-55 animate-fade-up" style={{ animationDelay: "440ms" }}>
             <CompassOrbit />
           </div>
-          <div className="flex items-center gap-4 animate-fade-up" style={{ animationDelay: "460ms" }}>
-            <div className="w-16 h-16 rounded-full overflow-hidden border border-gold/40">
-              <img src={portrait.url} alt="Zulqarnain Haider — Executive Virtual Assistant" className="w-full h-full object-cover" />
+
+          <div className="relative z-10 w-full max-w-[340px] animate-fade-up" style={{ animationDelay: "300ms" }}>
+            <div className="relative rounded-[1.25rem] border border-gold/35 bg-background p-2 shadow-elevated">
+              <div className="overflow-hidden rounded-[0.9rem] aspect-[4/5] bg-muted">
+                <img
+                  src={portrait.url}
+                  alt="Zulqarnain Haider — Executive Virtual Assistant"
+                  className="w-full h-full object-cover object-center"
+                />
+              </div>
+              <span className="absolute -top-3 -right-3 w-10 h-10 rounded-full border border-gold/35 bg-card" aria-hidden />
+              <span className="absolute -bottom-3 -left-3 w-7 h-7 rounded-full border border-gold/35 bg-gold/10" aria-hidden />
             </div>
-            <div>
-              <div className="font-display text-foreground text-base leading-tight">Zulqarnain Haider</div>
-              <div className="text-gold-light/70 text-[10px] uppercase tracking-[0.25em] mt-1">Executive Virtual Assistant</div>
+
+            <div className="mt-5 border-l-2 border-gold pl-4">
+              <div className="font-display text-foreground text-lg leading-tight">Zulqarnain Haider</div>
+              <div className="text-gold-light/70 text-[10px] uppercase tracking-[0.25em] mt-1.5">Executive Virtual Assistant</div>
             </div>
           </div>
         </div>
