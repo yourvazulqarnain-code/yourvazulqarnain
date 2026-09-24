@@ -238,9 +238,14 @@ const MID_DOTS: [string, string][] = [
 
 function CompassOrbit() {
   return (
-    <div className="relative w-full max-w-[440px] aspect-square mx-auto">
+    <div className="compass-stage relative w-full max-w-[440px] aspect-square mx-auto">
+      <div className="compass-aura absolute inset-[12%] rounded-full" />
       {/* outer dashed ring */}
       <div className="absolute inset-0 rounded-full border border-dashed border-gold/30 animate-orbit-slow" />
+      <div className="absolute inset-[4%] rounded-full border border-gold/15 animate-orbit-rev">
+        <span className="absolute left-1/2 -top-1 h-2 w-2 -translate-x-1/2 rounded-full bg-gold shadow-glow" />
+        <span className="absolute left-1/2 -bottom-1 h-2 w-2 -translate-x-1/2 rounded-full bg-gold-light" />
+      </div>
       {/* orbiting service nodes */}
       <div className="absolute inset-[8%] animate-orbit">
         {compassNodes.map((n, i) => {
@@ -250,7 +255,7 @@ function CompassOrbit() {
           return (
             <div key={n.label} className="absolute" style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}>
               <div className="animate-orbit-rev">
-                <div className="w-11 h-11 rounded-full border border-gold/35 bg-card flex items-center justify-center shadow-soft" title={n.label}>
+                <div className="compass-node w-11 h-11 rounded-full border border-gold/35 bg-card flex items-center justify-center shadow-soft" title={n.label}>
                   <n.icon size={17} strokeWidth={1.6} className="text-gold" />
                 </div>
               </div>
@@ -268,7 +273,7 @@ function CompassOrbit() {
       {/* compass core */}
       <div className="absolute inset-[33%] rounded-full border border-gold/40 bg-card shadow-elevated flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-brand-gradient opacity-10" />
-        <div className="relative w-full h-full animate-spin-slow">
+        <div className="relative w-full h-full">
           {(["N", "E", "S", "W"] as const).map((d, i) => (
             <span key={d} className="absolute text-[10px] font-semibold tracking-[0.2em] text-gold-light/80"
               style={{
@@ -282,7 +287,7 @@ function CompassOrbit() {
             </span>
           ))}
           {/* needle */}
-          <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
+          <svg viewBox="0 0 100 100" className="compass-needle absolute inset-0 z-10 w-full h-full">
             <polygon points="50,16 57,50 50,50" fill="var(--gold)" />
             <polygon points="50,16 43,50 50,50" fill="var(--gold)" opacity="0.55" />
             <polygon points="50,84 57,50 50,50" fill="var(--gold-light)" opacity="0.5" />
@@ -329,12 +334,11 @@ function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return (
-    <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? "backdrop-blur-xl bg-background/85 border-b border-gold/20" : "bg-transparent border-b border-transparent"}`}>
-      <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
+    <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? "backdrop-blur-xl bg-background/90 border-b border-border shadow-soft" : "bg-background/70 backdrop-blur-md border-b border-transparent"}`}>
+      <div className="mx-auto max-w-7xl px-6 h-20 flex items-center justify-between">
         <a href="#home" className="flex items-center gap-3">
-          <span className="font-display italic text-xl text-gold">ZH</span>
-          <span className="hidden sm:block h-4 w-px bg-gold/30" />
-          <span className="hidden sm:block font-display text-sm tracking-wide text-foreground">Zulqarnain Haider</span>
+          <span className="grid h-9 w-9 place-items-center rounded-sm bg-navy text-xs font-bold text-navy-foreground">ZH</span>
+          <span className="hidden sm:block font-semibold text-sm text-foreground">Zulqarnain Haider</span>
         </a>
         <nav className="hidden md:flex items-center gap-1">
           {navLinks.map(l => (
@@ -371,14 +375,43 @@ function Nav() {
 }
 
 function Hero() {
+  const heroRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let frame = 0;
+    const move = (event: PointerEvent) => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const bounds = hero.getBoundingClientRect();
+        const x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
+        const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+        hero.style.setProperty("--pointer-x", x.toFixed(3));
+        hero.style.setProperty("--pointer-y", y.toFixed(3));
+      });
+    };
+    const reset = () => {
+      hero.style.setProperty("--pointer-x", "0");
+      hero.style.setProperty("--pointer-y", "0");
+    };
+    hero.addEventListener("pointermove", move);
+    hero.addEventListener("pointerleave", reset);
+    return () => {
+      cancelAnimationFrame(frame);
+      hero.removeEventListener("pointermove", move);
+      hero.removeEventListener("pointerleave", reset);
+    };
+  }, []);
+
   return (
-    <section id="home" className="relative border-b border-gold/20">
-      <div className="grid lg:grid-cols-[55%_45%] min-h-screen">
-        {/* Left: editorial content */}
-        <div className="flex flex-col justify-center px-6 md:px-16 lg:px-20 pt-32 pb-16 lg:py-0 bg-background">
-          <div className="max-w-xl">
-            <div className="animate-fade-up">
-              <span className="inline-flex items-center gap-2 text-gold tracking-[0.3em] text-[11px] font-semibold uppercase pb-2 border-b border-gold">
+    <section ref={heroRef} id="home" className="hero-shell relative overflow-hidden border-b border-border">
+      <div className="hero-grid mx-auto grid min-h-[min(860px,100svh)] max-w-7xl items-center gap-12 px-6 pb-16 pt-32 lg:grid-cols-[minmax(0,1.22fr)_minmax(360px,0.78fr)] lg:gap-8 lg:pb-20 lg:pt-28">
+        <div className="relative z-20 flex flex-col justify-center">
+          <div className="max-w-3xl">
+            <div className="hero-enter hero-enter-1">
+              <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-4 py-2 text-gold tracking-[0.18em] text-[10px] font-semibold uppercase shadow-soft backdrop-blur-md">
                 <span className="relative flex w-1.5 h-1.5">
                   <span className="absolute inline-flex h-full w-full rounded-full bg-gold opacity-70 animate-ping" />
                   <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-gold" />
@@ -386,52 +419,56 @@ function Hero() {
                 Available for new projects
               </span>
             </div>
-            <h1 className="mt-8 text-3xl md:text-5xl lg:text-6xl text-foreground leading-[1.1] animate-fade-up" style={{ animationDelay: "120ms" }}>
-              Reclaim <span className="text-gold italic">10+ Hours</span> a Week. Scale Your Business with Executive-Level Virtual Assistance.
+            <h1 className="hero-enter hero-enter-2 mt-7 max-w-3xl text-[clamp(2.65rem,4.5vw,4.5rem)] font-semibold leading-[1.03] text-foreground">
+              <span className="block">Reclaim <span className="relative whitespace-nowrap text-gold">10+ Hours<span aria-hidden className="headline-sweep absolute inset-x-0 -bottom-1 h-1 rounded-full bg-gold/25" /></span> a Week.</span>
+              <span className="mt-4 block text-foreground/72">Scale Your Business with Executive-Level Virtual Assistance.</span>
             </h1>
-            <p className="mt-8 text-base md:text-lg text-gold-light/70 max-w-lg leading-relaxed font-light animate-fade-up" style={{ animationDelay: "260ms" }}>
+            <p className="hero-enter hero-enter-3 mt-7 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
               Executive Assistance · Lead Generation · Recruitment · CRM Management · Appointment Setting · Administrative Support · Real Estate Support · LinkedIn Outreach.
             </p>
-            <div className="mt-10 flex flex-wrap gap-4 animate-fade-up" style={{ animationDelay: "380ms" }}>
+            <div className="hero-enter hero-enter-4 mt-9 flex flex-wrap items-center gap-4">
               <a href="#contact">
-                <Button size="lg" className="bg-gold text-background hover:bg-gold-light transition-colors uppercase text-xs tracking-[0.2em] font-semibold rounded-none px-10 h-12">
-                  Hire Me <ArrowRight size={14} />
+                <Button size="lg" className="group h-13 rounded-md bg-primary px-8 text-xs font-semibold uppercase tracking-[0.16em] text-primary-foreground shadow-elevated transition-all duration-300 hover:-translate-y-1 hover:bg-primary/90 hover:shadow-glow">
+                  Hire Me <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </a>
               <a href="#portfolio">
-                <Button size="lg" variant="outline" className="border-gold/40 text-gold hover:bg-gold/10 hover:text-gold-light uppercase text-xs tracking-[0.2em] font-semibold rounded-none px-10 h-12">
+                <Button size="lg" variant="outline" className="h-13 rounded-md border-border bg-background/60 px-8 text-xs font-semibold uppercase tracking-[0.16em] text-foreground transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 hover:bg-card">
                   View Portfolio
                 </Button>
               </a>
-              <a href="mailto:yourvazulqarnain@gmail.com?subject=Resume%20Request" className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-gold-light/60 hover:text-gold-light transition-colors h-12 px-2">
+              <a href="mailto:yourvazulqarnain@gmail.com?subject=Resume%20Request" className="inline-flex h-12 items-center gap-2 px-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-gold">
                 <Download size={14} /> Resume
               </a>
+            </div>
+            <div className="hero-enter hero-enter-5 mt-11 flex flex-wrap gap-x-9 gap-y-4 border-t border-border pt-6">
+              {[["200+", "Projects"], ["4+", "Years"], ["24h", "Response"]].map(([value, label]) => (
+                <div key={label} className="flex items-baseline gap-2">
+                  <strong className="text-xl text-foreground">{value}</strong>
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">{label}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* Right: portrait with animated compass as a supporting visual */}
-        <div className="relative bg-card flex items-center justify-center px-6 py-20 lg:py-24 border-t lg:border-t-0 lg:border-l border-gold/20 overflow-hidden">
-          <div className="absolute w-[280px] sm:w-[340px] lg:w-[300px] xl:w-[360px] -right-20 sm:-right-10 lg:-right-24 xl:-right-16 bottom-4 opacity-55 animate-fade-up" style={{ animationDelay: "440ms" }}>
+        <div className="hero-visual relative mx-auto flex w-full max-w-[510px] items-center justify-center py-8 lg:py-0">
+          <div className="compass-parallax absolute -right-[22%] top-1/2 w-[82%] -translate-y-1/2 opacity-45">
             <CompassOrbit />
           </div>
-
-          <div className="relative z-10 w-full max-w-[340px] animate-fade-up" style={{ animationDelay: "300ms" }}>
-            <div className="relative rounded-[1.25rem] border border-gold/35 bg-background p-2 shadow-elevated">
-              <div className="overflow-hidden rounded-[0.9rem] aspect-[4/5] bg-muted">
+          <div className="portrait-enter portrait-parallax relative z-10 mr-auto w-[76%] max-w-[360px]">
+            <div className="portrait-frame relative overflow-hidden rounded-md border border-border bg-card p-2 shadow-elevated">
+              <div className="aspect-[4/5] overflow-hidden rounded-sm bg-muted">
                 <img
                   src={portrait.url}
                   alt="Zulqarnain Haider — Executive Virtual Assistant"
-                  className="w-full h-full object-cover object-center"
+                  className="portrait-image h-full w-full object-cover object-center"
                 />
               </div>
-              <span className="absolute -top-3 -right-3 w-10 h-10 rounded-full border border-gold/35 bg-card" aria-hidden />
-              <span className="absolute -bottom-3 -left-3 w-7 h-7 rounded-full border border-gold/35 bg-gold/10" aria-hidden />
             </div>
-
-            <div className="mt-5 border-l-2 border-gold pl-4">
-              <div className="font-display text-foreground text-lg leading-tight">Zulqarnain Haider</div>
-              <div className="text-gold-light/70 text-[10px] uppercase tracking-[0.25em] mt-1.5">Executive Virtual Assistant</div>
+            <div className="portrait-caption absolute -bottom-7 -right-10 rounded-md border border-border bg-background/90 px-5 py-4 shadow-elevated backdrop-blur-xl sm:-right-16">
+              <div className="font-semibold text-foreground text-sm leading-tight">Zulqarnain Haider</div>
+              <div className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.2em] text-gold">Executive Virtual Assistant</div>
             </div>
           </div>
         </div>
