@@ -375,9 +375,39 @@ function Nav() {
 }
 
 function Hero() {
+  const heroRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let frame = 0;
+    const move = (event: PointerEvent) => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const bounds = hero.getBoundingClientRect();
+        const x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
+        const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+        hero.style.setProperty("--pointer-x", x.toFixed(3));
+        hero.style.setProperty("--pointer-y", y.toFixed(3));
+      });
+    };
+    const reset = () => {
+      hero.style.setProperty("--pointer-x", "0");
+      hero.style.setProperty("--pointer-y", "0");
+    };
+    hero.addEventListener("pointermove", move);
+    hero.addEventListener("pointerleave", reset);
+    return () => {
+      cancelAnimationFrame(frame);
+      hero.removeEventListener("pointermove", move);
+      hero.removeEventListener("pointerleave", reset);
+    };
+  }, []);
+
   return (
-    <section id="home" className="hero-shell relative overflow-hidden border-b border-border">
-      <div className="hero-grid mx-auto grid min-h-[min(860px,100svh)] max-w-7xl items-center gap-12 px-6 pb-16 pt-32 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16 lg:pb-20 lg:pt-28">
+    <section ref={heroRef} id="home" className="hero-shell relative overflow-hidden border-b border-border">
+      <div className="hero-grid mx-auto grid min-h-[min(860px,100svh)] max-w-7xl items-center gap-12 px-6 pb-16 pt-32 lg:grid-cols-[minmax(0,1.22fr)_minmax(360px,0.78fr)] lg:gap-8 lg:pb-20 lg:pt-28">
         <div className="relative z-20 flex flex-col justify-center">
           <div className="max-w-3xl">
             <div className="hero-enter hero-enter-1">
@@ -389,9 +419,9 @@ function Hero() {
                 Available for new projects
               </span>
             </div>
-            <h1 className="hero-enter hero-enter-2 mt-7 max-w-3xl text-[clamp(2.65rem,5.4vw,5.4rem)] font-semibold leading-[1.02] text-foreground">
-              Reclaim <span className="relative whitespace-nowrap text-gold">10+ Hours<span aria-hidden className="headline-sweep absolute inset-x-0 -bottom-1 h-1 rounded-full bg-gold/25" /></span> a Week.
-              <span className="mt-3 block text-foreground/72">Scale Your Business with Executive-Level Virtual Assistance.</span>
+            <h1 className="hero-enter hero-enter-2 mt-7 max-w-3xl text-[clamp(2.65rem,4.5vw,4.5rem)] font-semibold leading-[1.03] text-foreground">
+              <span className="block">Reclaim <span className="relative whitespace-nowrap text-gold">10+ Hours<span aria-hidden className="headline-sweep absolute inset-x-0 -bottom-1 h-1 rounded-full bg-gold/25" /></span> a Week.</span>
+              <span className="mt-4 block text-foreground/72">Scale Your Business with Executive-Level Virtual Assistance.</span>
             </h1>
             <p className="hero-enter hero-enter-3 mt-7 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
               Executive Assistance · Lead Generation · Recruitment · CRM Management · Appointment Setting · Administrative Support · Real Estate Support · LinkedIn Outreach.
@@ -423,10 +453,10 @@ function Hero() {
         </div>
 
         <div className="hero-visual relative mx-auto flex w-full max-w-[510px] items-center justify-center py-8 lg:py-0">
-          <div className="absolute -right-[22%] top-1/2 w-[82%] -translate-y-1/2 opacity-45">
+          <div className="compass-parallax absolute -right-[22%] top-1/2 w-[82%] -translate-y-1/2 opacity-45">
             <CompassOrbit />
           </div>
-          <div className="portrait-enter relative z-10 mr-auto w-[76%] max-w-[360px]">
+          <div className="portrait-enter portrait-parallax relative z-10 mr-auto w-[76%] max-w-[360px]">
             <div className="portrait-frame relative overflow-hidden rounded-md border border-border bg-card p-2 shadow-elevated">
               <div className="aspect-[4/5] overflow-hidden rounded-sm bg-muted">
                 <img
