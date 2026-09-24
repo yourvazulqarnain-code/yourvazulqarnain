@@ -4,9 +4,12 @@ import {
   Users, Database, Search, LineChart, Home, Mail, MessageCircle, Linkedin,
   CheckCircle2, ArrowRight, Clock, ShieldCheck, FileSpreadsheet,
   Menu, X, Quote, Star, MapPin, BarChart3, FileSearch,
-  Download, ArrowUp, Calendar, Palette, Check,
+  Download, ArrowUp, Calendar, Palette, Check, Calculator, Timer,
+  CircleDollarSign, TrendingUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
@@ -90,6 +93,7 @@ const navLinks = [
   { href: "#services", label: "Services" },
   { href: "#portfolio", label: "Portfolio" },
   { href: "#experience", label: "Experience" },
+  { href: "#roi-calculator", label: "ROI" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -725,6 +729,121 @@ function Testimonials() {
   );
 }
 
+function RoiCalculator() {
+  const [weeklyHours, setWeeklyHours] = useState(15);
+  const [hourlyValue, setHourlyValue] = useState(35);
+  const [monthlyCost, setMonthlyCost] = useState(600);
+  const [timeSaved, setTimeSaved] = useState(70);
+
+  const safeWeeklyHours = Math.max(0, weeklyHours || 0);
+  const safeHourlyValue = Math.max(0, hourlyValue || 0);
+  const safeMonthlyCost = Math.max(0, monthlyCost || 0);
+  const safeTimeSaved = Math.min(100, Math.max(0, timeSaved || 0));
+  const recoveredHours = safeWeeklyHours * 4.33 * (safeTimeSaved / 100);
+  const valueCreated = recoveredHours * safeHourlyValue;
+  const netGain = valueCreated - safeMonthlyCost;
+  const roi = safeMonthlyCost > 0 ? (netGain / safeMonthlyCost) * 100 : 0;
+  const currency = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  });
+  const whatsappText = encodeURIComponent(
+    `Hi Zulqarnain, I used your ROI calculator. My estimate shows ${recoveredHours.toFixed(1)} hours recovered per month, ${currency.format(valueCreated)} in value created, and ${Math.round(roi)}% projected ROI. I'd like to discuss VA support.`
+  );
+
+  const fields = [
+    { id: "weekly-hours", label: "Weekly admin hours", value: weeklyHours, setValue: setWeeklyHours, min: 0, max: 80, suffix: "hrs" },
+    { id: "hourly-value", label: "Your hourly value", value: hourlyValue, setValue: setHourlyValue, min: 0, max: 500, suffix: "USD" },
+    { id: "monthly-cost", label: "Monthly VA investment", value: monthlyCost, setValue: setMonthlyCost, min: 0, max: 10000, suffix: "USD" },
+    { id: "time-saved", label: "Work delegated", value: timeSaved, setValue: setTimeSaved, min: 0, max: 100, suffix: "%" },
+  ];
+
+  const results = [
+    { icon: Timer, label: "Time recovered", value: `${recoveredHours.toFixed(1)} hrs`, note: "per month" },
+    { icon: CircleDollarSign, label: "Value created", value: currency.format(valueCreated), note: "per month" },
+    { icon: TrendingUp, label: "Net monthly gain", value: currency.format(netGain), note: "after VA investment" },
+  ];
+
+  return (
+    <section id="roi-calculator" className="border-y border-gold/20 bg-card py-24">
+      <div className="mx-auto max-w-7xl px-6">
+        <SectionHead eyebrow="ROI Calculator" title="See what your time could be worth" />
+        <Reveal>
+          <div className="grid overflow-hidden rounded-md border border-border bg-background shadow-elevated lg:grid-cols-[1.05fr_0.95fr]">
+            <div className="p-7 sm:p-10 lg:p-12">
+              <div className="mb-9 flex items-start gap-4">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent text-gold">
+                  <Calculator size={21} />
+                </span>
+                <div>
+                  <h3 className="text-xl text-foreground">Estimate your monthly return</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Adjust the figures to match your workload and business.</p>
+                </div>
+              </div>
+              <div className="grid gap-7 sm:grid-cols-2">
+                {fields.map((field) => (
+                  <div key={field.id} className="space-y-3">
+                    <div className="flex items-center justify-between gap-3">
+                      <Label htmlFor={field.id} className="text-xs font-semibold text-foreground">{field.label}</Label>
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-gold">{field.suffix}</span>
+                    </div>
+                    <Input
+                      id={field.id}
+                      type="number"
+                      min={field.min}
+                      max={field.max}
+                      value={field.value}
+                      onChange={(event) => field.setValue(Number(event.target.value))}
+                      className="h-12 rounded-md border-input bg-card px-4 text-base font-semibold text-foreground shadow-none focus-visible:ring-gold"
+                    />
+                  </div>
+                ))}
+              </div>
+              <p className="mt-8 border-t border-border pt-5 text-xs leading-relaxed text-muted-foreground">
+                Estimates use 4.33 weeks per month and are for planning purposes only.
+              </p>
+            </div>
+
+            <div className="flex flex-col justify-between bg-navy p-7 text-navy-foreground sm:p-10 lg:p-12">
+              <div>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-navy-foreground/60">Projected return</span>
+                <div className="mt-4 flex items-end gap-2">
+                  <strong className="text-5xl font-semibold leading-none sm:text-6xl">{Math.round(roi)}%</strong>
+                  <span className="pb-1 text-xs uppercase tracking-[0.14em] text-navy-foreground/60">ROI</span>
+                </div>
+                <div className="mt-8 h-1.5 overflow-hidden rounded-full bg-navy-foreground/15">
+                  <div
+                    className="h-full rounded-full bg-primary-foreground transition-[width] duration-700 ease-out"
+                    style={{ width: `${Math.min(100, Math.max(0, roi / 5))}%` }}
+                  />
+                </div>
+                <div className="mt-9 divide-y divide-navy-foreground/15 border-y border-navy-foreground/15">
+                  {results.map((result) => (
+                    <div key={result.label} className="flex items-center gap-4 py-5">
+                      <result.icon size={19} className="shrink-0 text-primary-foreground" />
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs text-navy-foreground/60">{result.label}</div>
+                        <div className="mt-1 text-[10px] uppercase tracking-[0.12em] text-navy-foreground/45">{result.note}</div>
+                      </div>
+                      <strong className="text-lg text-navy-foreground sm:text-xl">{result.value}</strong>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <a href={`https://wa.me/923458007325?text=${whatsappText}`} target="_blank" rel="noreferrer" className="mt-9">
+                <Button className="h-12 w-full rounded-md bg-primary-foreground text-navy hover:bg-primary-foreground/90">
+                  Discuss My Results <ArrowRight size={15} />
+                </Button>
+              </a>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 function CTA() {
   return (
     <section className="py-24">
@@ -879,6 +998,7 @@ function Portfolio() {
       <Process />
       <Experience />
       <Testimonials />
+      <RoiCalculator />
       <FAQ />
       <CTA />
       <Contact />
