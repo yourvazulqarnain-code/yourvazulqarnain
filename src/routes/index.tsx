@@ -446,7 +446,7 @@ function Hero() {
               </a>
             </div>
             <div className="hero-enter hero-enter-5 mt-11 flex flex-wrap gap-x-9 gap-y-4 border-t border-border pt-6">
-              {[["200+", "Projects"], ["4+", "Years"], ["24h", "Response"]].map(([value, label]) => (
+              {[["200+", "Projects"], ["6+", "Years"], ["24h", "Response"]].map(([value, label]) => (
                 <div key={label} className="flex items-baseline gap-2">
                   <strong className="text-xl text-foreground">{value}</strong>
                   <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">{label}</span>
