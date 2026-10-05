@@ -166,6 +166,35 @@ function BackgroundFX() {
   );
 }
 
+function ScrollProgress() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        setProgress(max > 0 ? Math.min(1, window.scrollY / max) : 0);
+      });
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  return (
+    <div aria-hidden className="scroll-progress-track fixed inset-x-0 top-0 z-[60] h-0.5">
+      <div className="scroll-progress-bar h-full origin-left" style={{ transform: `scaleX(${progress})` }} />
+    </div>
+  );
+}
+
 // ============ THEMES ============
 const themes = [
   { id: "coral-teal", label: "Coral & Teal", dots: ["#fdf6f2", "#e8735a", "#2c6068"] },
@@ -242,7 +271,8 @@ const MID_DOTS: [string, string][] = [
 
 function CompassOrbit() {
   return (
-    <div className="compass-stage relative w-full max-w-[440px] aspect-square mx-auto">
+    <div className="compass-stage compass-kinetic relative w-full max-w-[440px] aspect-square mx-auto">
+      <div className="compass-scan absolute inset-[2%] rounded-full" />
       <div className="compass-aura absolute inset-[12%] rounded-full" />
       {/* outer dashed ring */}
       <div className="absolute inset-0 rounded-full border border-dashed border-gold/30 animate-orbit-slow" />
@@ -259,7 +289,7 @@ function CompassOrbit() {
           return (
             <div key={n.label} className="absolute" style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}>
               <div className="animate-orbit-rev">
-                <div className="compass-node w-11 h-11 rounded-full border border-gold/35 bg-card flex items-center justify-center shadow-soft" title={n.label}>
+                <div className="compass-node w-11 h-11 rounded-full border border-gold/35 bg-card flex items-center justify-center shadow-soft" title={n.label} style={{ animationDelay: `${i * -0.45}s` }}>
                   <n.icon size={17} strokeWidth={1.6} className="text-gold" />
                 </div>
               </div>
@@ -347,7 +377,7 @@ function Nav() {
         <nav className="hidden md:flex items-center gap-1">
           {navLinks.map(l => (
             <a key={l.href} href={l.href}
-              className="relative px-3 py-2 text-xs uppercase tracking-[0.15em] font-medium text-foreground/60 hover:text-gold-light transition-colors group">
+              className="kinetic-link relative px-3 py-2 text-xs uppercase tracking-[0.15em] font-medium text-foreground/60 hover:text-gold-light transition-colors group">
               {l.label}
               <span className="absolute left-3 right-3 -bottom-0.5 h-px bg-gold scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
             </a>
@@ -432,7 +462,7 @@ function Hero() {
             </p>
             <div className="hero-enter hero-enter-4 mt-9 flex flex-wrap items-center gap-4">
               <a href="#contact">
-                <Button size="lg" className="group h-13 rounded-md bg-primary px-8 text-xs font-semibold uppercase tracking-[0.16em] text-primary-foreground shadow-elevated transition-all duration-300 hover:-translate-y-1 hover:bg-primary/90 hover:shadow-glow">
+                <Button size="lg" className="kinetic-button group h-13 rounded-md bg-primary px-8 text-xs font-semibold uppercase tracking-[0.16em] text-primary-foreground shadow-elevated transition-all duration-300 hover:-translate-y-1 hover:bg-primary/90 hover:shadow-glow">
                   Hire Me <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </a>
@@ -460,8 +490,8 @@ function Hero() {
           <div className="compass-parallax absolute -right-[22%] top-1/2 w-[82%] -translate-y-1/2 opacity-45">
             <CompassOrbit />
           </div>
-          <div className="portrait-enter portrait-parallax relative z-10 mr-auto w-[76%] max-w-[360px]">
-            <div className="portrait-frame relative overflow-hidden rounded-md border border-border bg-card p-2 shadow-elevated">
+          <div className="portrait-enter portrait-parallax portrait-float relative z-10 mr-auto w-[76%] max-w-[360px]">
+            <div className="portrait-frame portrait-kinetic relative overflow-hidden rounded-md border border-border bg-card p-2 shadow-elevated">
               <div className="aspect-[4/5] overflow-hidden rounded-sm bg-muted">
                 <img
                   src={portrait.url}
@@ -532,7 +562,7 @@ function SectionHead({ eyebrow, title, center = false }: { eyebrow: string; titl
         <span className="h-px w-6 bg-gold" /> {eyebrow} {center && <span className="h-px w-6 bg-gold" />}
       </span>
       <h2 className="text-3xl md:text-5xl text-foreground leading-tight">{title}</h2>
-      <div className={`mt-6 h-px w-16 bg-gold/60 ${center ? "mx-auto" : ""}`} />
+      <div className={`section-rule mt-6 h-px w-16 bg-gold/60 ${center ? "mx-auto" : ""}`} />
     </Reveal>
   );
 }
@@ -563,7 +593,7 @@ function Services() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-gold/15 border border-gold/20">
           {services.map((s, i) => (
             <Reveal key={s.title} delay={i * 60}>
-              <div className="group h-full p-10 bg-card hover:bg-muted transition-colors duration-500">
+              <div className="motion-card group h-full p-10 bg-card hover:bg-muted transition-colors duration-500">
                 <s.icon size={26} strokeWidth={1.5} className="text-gold mb-6 transform group-hover:-translate-y-1 transition-transform duration-300" />
                 <h3 className="font-display text-xl text-foreground mb-4">{s.title}</h3>
                 <p className="text-sm text-gold-light/60 leading-relaxed">{s.desc}</p>
@@ -586,7 +616,7 @@ function Skills() {
           <div className="flex flex-wrap justify-center gap-3">
             {skills.map((s) => (
               <span key={s}
-                className="px-4 py-2 border border-gold/20 bg-card text-xs uppercase tracking-[0.12em] text-gold-light/70 hover:text-gold-light hover:border-gold/50 transition-colors cursor-default">
+                className="skill-chip px-4 py-2 border border-gold/20 bg-card text-xs uppercase tracking-[0.12em] text-gold-light/70 hover:text-gold-light hover:border-gold/50 transition-colors cursor-default">
                 {s}
               </span>
             ))}
@@ -625,7 +655,7 @@ function Process() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-gold/15 border border-gold/20">
           {process.map((p, i) => (
             <Reveal key={p.n} delay={i * 80}>
-              <div className="h-full p-8 bg-card hover:bg-muted transition-colors duration-500">
+              <div className="motion-card h-full p-8 bg-card hover:bg-muted transition-colors duration-500">
                 <div className="font-display italic text-4xl text-gold/70 mb-4">{p.n}</div>
                 <h3 className="font-display text-lg text-foreground mb-3">{p.title}</h3>
                 <p className="text-sm text-gold-light/60 leading-relaxed">{p.desc}</p>
@@ -669,7 +699,7 @@ function PortfolioSection() {
         <div className="grid md:grid-cols-2 gap-px bg-gold/15 border border-gold/20">
           {portfolio.map((p, i) => (
             <Reveal key={p.title} delay={i * 70}>
-              <div className="group h-full p-10 bg-card hover:bg-muted transition-colors duration-500">
+              <div className="motion-card group h-full p-10 bg-card hover:bg-muted transition-colors duration-500">
                 <div className="flex items-start justify-between mb-6">
                   <p.icon size={26} strokeWidth={1.5} className="text-gold" />
                   <span className="font-display italic text-sm text-gold/50">0{i+1} / 0{portfolio.length}</span>
@@ -914,7 +944,7 @@ function Contact() {
               <a
                 href={c.href}
                 {...(c.ext ? { target: "_blank", rel: "noreferrer" } : {})}
-                className="group h-full flex flex-col items-center gap-5 p-10 bg-card hover:bg-muted transition-colors duration-500"
+                className="motion-card group h-full flex flex-col items-center gap-5 p-10 bg-card hover:bg-muted transition-colors duration-500"
               >
                 <c.icon size={24} strokeWidth={1.5} className="text-gold group-hover:-translate-y-1 transition-transform duration-300" />
                 <div>
@@ -985,6 +1015,7 @@ function FloatingCTA() {
 function Portfolio() {
   return (
     <div className="relative min-h-screen text-foreground">
+      <ScrollProgress />
       <BackgroundFX />
       <Nav />
       <Hero />
