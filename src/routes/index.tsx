@@ -19,7 +19,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Zulqarnain Haider — Executive Virtual Assistant" },
-      { name: "description", content: "Executive Virtual Assistant specializing in lead generation, data entry, web research, CRM management, and real estate support. 500+ projects delivered for clients worldwide." },
+      { name: "description", content: "Executive Virtual Assistant specializing in lead generation, data entry, web research, CRM management, and real estate support. 1000+ projects delivered for clients worldwide." },
       { property: "og:title", content: "Zulqarnain Haider — Executive Virtual Assistant" },
       { property: "og:description", content: "Executive Virtual Assistant specializing in lead generation, data entry, web research, CRM management, and real estate support." },
       { property: "og:type", content: "website" },
@@ -71,7 +71,7 @@ const process = [
 
 const experience = [
   { role: "Virtual Assistant", company: "Frontline Financial", period: "June 2023 – July 2026", desc: "Provided admin support, data entry, research, spreadsheet management, and client-related assistance." },
-  { role: "Freelance Virtual Assistant", company: "Upwork", period: "January 2020 – Present", desc: "Completed 500+ projects related to lead generation, data entry, web research, CRM updates, and administrative support." },
+  { role: "Freelance Virtual Assistant", company: "Upwork", period: "January 2020 – Present", desc: "Completed 1000+ projects related to lead generation, data entry, web research, CRM updates, and administrative support." },
 ];
 
 const testimonials = [
@@ -476,7 +476,7 @@ function Hero() {
               </a>
             </div>
             <div className="hero-enter hero-enter-5 mt-11 flex flex-wrap gap-x-9 gap-y-4 border-t border-border pt-6">
-              {[["500+", "Projects"], ["6+", "Years"], ["24h", "Response"]].map(([value, label]) => (
+              {[["1000+", "Projects"], ["6+", "Years"], ["24h", "Response"]].map(([value, label]) => (
                 <div key={label} className="flex items-baseline gap-2">
                   <strong className="text-xl text-foreground">{value}</strong>
                   <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">{label}</span>
@@ -513,10 +513,10 @@ function Hero() {
 
 function StatsBar() {
   const stats = [
-    { value: 500, suffix: "+", label: "Projects Completed" },
+    { value: 1000, suffix: "+", label: "Projects Completed" },
     { value: 6, suffix: "+", label: "Years Experience" },
     { value: 10000, suffix: "+", label: "Leads Generated" },
-    { value: 100, suffix: "+", label: "Global Clients" },
+    { value: 500, suffix: "+", label: "Global Clients" },
   ];
   return (
     <section className="bg-card border-b border-gold/20">

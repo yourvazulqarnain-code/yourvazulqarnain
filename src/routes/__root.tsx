@@ -64,7 +64,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Zulqarnain Haider — Virtual Assistant, Lead Generation & Data Entry" },
-      { name: "description", content: "Professional Virtual Assistant offering lead generation, data entry, web research, CRM management, and real estate VA support. 200+ projects completed." },
+      { name: "description", content: "Professional Virtual Assistant offering lead generation, data entry, web research, CRM management, and real estate VA support. 1000+ projects completed." },
       { name: "author", content: "Zulqarnain Haider" },
       { property: "og:title", content: "Zulqarnain Haider — Virtual Assistant, Lead Generation & Data Entry" },
       { property: "og:description", content: "Professional Virtual Assistant offering lead generation, data entry, web research, CRM management, and real estate VA support. 200+ projects completed." },
